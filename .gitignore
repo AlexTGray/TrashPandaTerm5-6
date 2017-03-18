@@ -1,0 +1,14 @@
+*/Binaries
+*/Build
+*/Intermediate
+*/Saved
+*/DerivedDataCache
+*.VC.db
+*/.sln
+
+Binaries/
+Saved/
+Intermediate/
+Content/Levels/Level1.umap
+Content/Levels/Level1.umap
+TrashPanda.sln
