@@ -37,7 +37,7 @@ protected:
 	int32 Damage;
 
 	UPROPERTY(EditDefaultsOnly, Category = Weapon)
-	int32 AttachSpeed;
+	int32 AttackSpeed;
 
 	UPROPERTY(EditDefaultsOnly, Category = Weapon)
 	TEnumAsByte<WeaponType> WType;
