@@ -1,7 +1,6 @@
 #include "TrashPanda.h"
 #include "Enemy.h"
 
-
 // Sets default values
 AEnemy::AEnemy()
 {
