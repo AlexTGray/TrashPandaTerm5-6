@@ -127,7 +127,7 @@ bool AChip::GetIsHeavyAttacking()
 void AChip::SetPlayerStats(int level)
 {
 	Health = 100;
-	Damage = 0;
+	Damage = 1;
 	Fury = 100;
 	Speed = 10;
 
@@ -161,6 +161,12 @@ void AChip::Interact()
 void AChip::LightAttackPressed()
 {
 	bisLightAttacking = true;
+		//If(GetEquippedWeaponType == Slashing)
+			//{CalculatedDamage = (Damage + GetWeaponDamage()) * 0.5f;
+			//else
+			//{CalculatedDamage = (Damage + GetWeaponDamage())
+	//OnCollisionWithEnemy
+		//DealDamage(CalculatedDamage)
 }
 
 void AChip::LightAttackReleased()
@@ -172,6 +178,12 @@ void AChip::HeavyAttackPressed()
 {
 	bisHeavyAttacking = true;
 	print("Heavy Attack");
+	//If(GetEquippedWeaponType == Bludgeoning)
+	//{CalculatedDamage = (Damage + GetWeaponDamage()) * 0.5f;
+	//else
+	//{CalculatedDamage = (Damage + GetWeaponDamage())
+	//OnCollisionWithEnemy
+	//DealDamage(CalculatedDamage)
 }
 
 void AChip::HeavyAttackReleased()
