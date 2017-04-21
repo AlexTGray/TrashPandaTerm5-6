@@ -161,12 +161,12 @@ void AChip::Interact()
 void AChip::LightAttackPressed()
 {
 	bisLightAttacking = true;
-		//If(GetEquippedWeaponType == Slashing)
-			//{CalculatedDamage = (Damage + GetWeaponDamage()) * 0.5f;
+		//Moved to Weapon for calculatio, moved to enemy for  take damage//If(GetEquippedWeaponType == Slashing)
+			//{CalculatedDamage = (Damage + GetWeaponDamage()) * 1.5f;
 			//else
 			//{CalculatedDamage = (Damage + GetWeaponDamage())
 	//OnCollisionWithEnemy
-		//DealDamage(CalculatedDamage)
+		//TakeDamage(CalculatedDamage)
 }
 
 void AChip::LightAttackReleased()
@@ -179,7 +179,7 @@ void AChip::HeavyAttackPressed()
 	bisHeavyAttacking = true;
 	print("Heavy Attack");
 	//If(GetEquippedWeaponType == Bludgeoning)
-	//{CalculatedDamage = (Damage + GetWeaponDamage()) * 0.5f;
+	//{CalculatedDamage = (Damage + GetWeaponDamage()) * 1.5f;
 	//else
 	//{CalculatedDamage = (Damage + GetWeaponDamage())
 	//OnCollisionWithEnemy
