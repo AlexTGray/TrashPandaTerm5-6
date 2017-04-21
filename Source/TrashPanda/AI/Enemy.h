@@ -28,8 +28,6 @@ protected:
 	uint32 DamageReduction;
 	UPROPERTY(VisibleAnywhere)
 	uint32 Damage;
-	UPROPERTY(VisibleAnywhere)
-	uint32 Speed;
 
 	UFUNCTION()
 	void LootDrop();
