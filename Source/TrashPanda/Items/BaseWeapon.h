@@ -5,7 +5,7 @@
 UENUM(BlueprintType, Category = "WeaponType")
 enum WeaponType
 {
-	Slashing, Bludgeoning
+	Swinging, Stabbing
 };
 
 #include "GameFramework/Actor.h"
@@ -37,7 +37,7 @@ protected:
 	int32 Damage;
 
 	UPROPERTY(EditDefaultsOnly, Category = Weapon)
-	int32 AttackSpeed;
+	int32 AttachSpeed;
 
 	UPROPERTY(EditDefaultsOnly, Category = Weapon)
 	TEnumAsByte<WeaponType> WType;
