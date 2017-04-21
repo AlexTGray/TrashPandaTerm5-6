@@ -5,7 +5,7 @@
 UENUM(BlueprintType, Category = "WeaponType")
 enum WeaponType
 {
-	Swinging, Stabbing
+	Slashing, Bludgeoning
 };
 
 #include "GameFramework/Actor.h"
