@@ -1,15 +1,15 @@
 // All Rights Reserved for Students Graduating TFS Summer 2017
 
 #include "TrashPanda.h"
-#include "Items/BaseItem.h"
-#include "Player/InventoryComponent.h"
-#include "Items/IMaterial.h"
-#include "Player/InventoryWidget.h"
-#include "Items/IConsumable.h"
-#include "Player/ChipAnimInstance.h"
-#include "UI/CharacterWidgetSwitcher.h"
-
-#include "Player/Chip.h"
+#include "BaseItem.h"
+#include "InventoryComponent.h"
+#include "IMaterial.h"
+#include "InventoryWidget.h"
+#include "IConsumable.h"
+#include "ChipAnimInstance.h"
+#include "CharacterWidgetSwitcher.h"
+#include "Chip.h"
+#include "ChipHUDWidget.h"
 
 #define print(text) if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Red,text) 
 
@@ -65,6 +65,7 @@ void AChip::BeginPlay()
 	PickupRadius->OnComponentEndOverlap.AddDynamic(this, &ThisClass::OnOverlapEnd);
 
 	animInstance = GetMesh()->GetAnimInstance();
+	SetPlayerStats(1);
 
 	if (InvWidgetClass)
 	{
@@ -81,6 +82,16 @@ void AChip::BeginPlay()
 	}
 
 
+
+	////Wont Add it to screen,
+	////CRASHES THE GAME
+	//if (ChipHUDWidgetClass)
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("CHIPHUDWIDGETCLASS EXISTS, THIS SHOULD ATTEMPT TO PUT IT ON SCREEN"));
+	//	//ChipHUDWidget = CreateWidget<UChipHUDWidget>(GetWorld()->GetFirstPlayerController(), ChipHUDWidgetClass);
+	//	//ChipHUDWidget->AddToPlayerScreen();
+	//	//ChipHUDWidget->SetVisibility(ESlateVisibility::Visible);
+	//}
 }
 
 // Called every frame
@@ -126,9 +137,11 @@ bool AChip::GetIsHeavyAttacking()
 
 void AChip::SetPlayerStats(int level)
 {
-	Health = 100;
-	Damage = 1;
-	Fury = 100;
+	MaxHealth = 100;
+	MaxFury = 100;
+	CurrentHealth = MaxHealth;
+	CurrentFury = MaxFury;
+	Damage = 0;
 	Speed = 10;
 
 	CritChance = .10f;
@@ -161,12 +174,6 @@ void AChip::Interact()
 void AChip::LightAttackPressed()
 {
 	bisLightAttacking = true;
-		//Moved to Weapon for calculatio, moved to enemy for  take damage//If(GetEquippedWeaponType == Slashing)
-			//{CalculatedDamage = (Damage + GetWeaponDamage()) * 1.5f;
-			//else
-			//{CalculatedDamage = (Damage + GetWeaponDamage())
-	//OnCollisionWithEnemy
-		//TakeDamage(CalculatedDamage)
 }
 
 void AChip::LightAttackReleased()
@@ -178,12 +185,6 @@ void AChip::HeavyAttackPressed()
 {
 	bisHeavyAttacking = true;
 	print("Heavy Attack");
-	//If(GetEquippedWeaponType == Bludgeoning)
-	//{CalculatedDamage = (Damage + GetWeaponDamage()) * 1.5f;
-	//else
-	//{CalculatedDamage = (Damage + GetWeaponDamage())
-	//OnCollisionWithEnemy
-	//DealDamage(CalculatedDamage)
 }
 
 void AChip::HeavyAttackReleased()
@@ -203,7 +204,7 @@ void AChip::Rabid()
 
 void AChip::AddFury(int fury)
 {
-	Fury += fury;
+	CurrentFury += fury;
 }
 
 void AChip::OpenInv()
@@ -257,6 +258,65 @@ void AChip::ReadInv()
 		UE_LOG(LogTemp, Warning, TEXT("Items in TMap %d"), num);
 	}
 }
+
+float AChip::GetHealthAsPercentage()
+{
+	return GetHealth()/ GetMaxHealth();	
+}
+
+float AChip::GetHealth()
+{
+	return CurrentHealth;
+}
+
+float AChip::GetMaxHealth()
+{
+	return MaxHealth;
+}
+
+float AChip::GetFuryAsPercentage()
+{
+	return GetFury() / GetMaxFury();
+}
+
+float AChip::GetFury()
+{
+	return CurrentFury;
+}
+
+float AChip::GetMaxFury()
+{
+	return MaxFury;
+}
+
+int AChip::GetHConsumablesQuantity()
+{
+	return 5; //Setting to test
+}
+
+int AChip::GetFConsumablesQuantity()
+{
+	return 4; //setting to test
+}
+
+void AChip::DebugHealth()
+{
+	//Debugging to the screen
+	//if (GEngine)
+	//	GEngine->AddOnScreenDebugMessage(-1, 15.0F, FColor::Yellow, FString::Printf(TEXT("Health: %f"), this->CurrentHealth));
+
+	UE_LOG(LogTemp, Warning, TEXT("Health %f"), this->GetHealthAsPercentage());
+	UE_LOG(LogTemp, Warning, TEXT("CurrentHealth %f"), this->GetHealth());
+	UE_LOG(LogTemp, Warning, TEXT("MaxHealth %f"), this->GetMaxHealth());
+}
+
+void AChip::DebugFury()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Health %f"), this->GetFuryAsPercentage());
+	UE_LOG(LogTemp, Warning, TEXT("CurrentHealth %f"), this->GetFury());
+	UE_LOG(LogTemp, Warning, TEXT("MaxHealth %f"), this->GetMaxFury());
+}
+
 
 void AChip::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
