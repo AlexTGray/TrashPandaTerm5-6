@@ -82,7 +82,6 @@ protected:
 	class UCharacterWidgetSwitcher* SwitchWidget;
 
 
-
 	UPROPERTY(VisibleAnywhere, Category = Player)
 	TArray<AActor*> itemsInRange;
 
