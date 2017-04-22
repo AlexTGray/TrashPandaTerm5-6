@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TrashPanda.h"
-#include "Chip.h"
+#include "Player/Chip.h"
 #include "TrashPandaPlayerState.h"
 #include "TrashPandaGameState.h"
 #include "TrashPandaGameModeBase.h"
