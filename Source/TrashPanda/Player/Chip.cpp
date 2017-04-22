@@ -1,14 +1,14 @@
 // All Rights Reserved for Students Graduating TFS Summer 2017
 
 #include "TrashPanda.h"
-#include "BaseItem.h"
-#include "InventoryComponent.h"
-#include "IMaterial.h"
-#include "InventoryWidget.h"
-#include "IConsumable.h"
-#include "ChipAnimInstance.h"
-#include "CharacterWidgetSwitcher.h"
-#include "Chip.h"
+#include "Items/BaseItem.h"
+#include "Player/InventoryComponent.h"
+#include "Items/IMaterial.h"
+#include "Player/InventoryWidget.h"
+#include "Items/IConsumable.h"
+#include "Player/ChipAnimInstance.h"
+#include "UI/CharacterWidgetSwitcher.h"
+#include "Player/Chip.h"
 #include "ChipHUDWidget.h"
 
 #define print(text) if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Red,text) 

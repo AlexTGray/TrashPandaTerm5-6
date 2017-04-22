@@ -2,7 +2,7 @@
 
 #include "TrashPanda.h"
 #include "ChipHUDWidget.h"
-#include "Chip.h"
+#include "Player/Chip.h"
 
 void UChipHUDWidget::NativeConstruct()
 {
