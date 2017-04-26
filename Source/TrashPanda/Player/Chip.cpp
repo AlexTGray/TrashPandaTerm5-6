@@ -1,5 +1,3 @@
-// All Rights Reserved for Students Graduating TFS Summer 2017
-
 #include "TrashPanda.h"
 #include "Items/BaseItem.h"
 #include "Player/InventoryComponent.h"
@@ -10,14 +8,14 @@
 #include "UI/CharacterWidgetSwitcher.h"
 #include "Player/Chip.h"
 #include "ChipHUDWidget.h"
-#include "UI/PauseWidget.h"
+#include "TrashPandaGameModeBase.h"
 
 #define print(text) if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Red,text) 
 
 // Sets default values
 AChip::AChip()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	BaseTurnRate = 45.f;
@@ -43,15 +41,15 @@ AChip::AChip()
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character	
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
-	
-	// Create a follow camera
+
+												// Create a follow camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory"));
-//tags
-	RootComponent->ComponentTags.Add("Player");	
+	//tags
+	RootComponent->ComponentTags.Add("Player");
 	Tags.Add("Player");
 	this->Tags.Add("Player");
 	PickupRadius->ComponentTags.Add("Player");
@@ -82,19 +80,23 @@ void AChip::BeginPlay()
 		SwitchWidget->SetVisibility(ESlateVisibility::Hidden);
 	}
 
-	if (PauseWidgetClass)
-	{
-		PauseGameWidget = CreateWidget<UPauseWidget>(GetWorld()->GetFirstPlayerController(), PauseWidgetClass);
-		PauseGameWidget->AddToPlayerScreen();
-		PauseGameWidget->SetVisibility(ESlateVisibility::Hidden);
-	}
 
+
+	////Wont Add it to screen,
+	////CRASHES THE GAME
+	//if (ChipHUDWidgetClass)
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("CHIPHUDWIDGETCLASS EXISTS, THIS SHOULD ATTEMPT TO PUT IT ON SCREEN"));
+	//	//ChipHUDWidget = CreateWidget<UChipHUDWidget>(GetWorld()->GetFirstPlayerController(), ChipHUDWidgetClass);
+	//	//ChipHUDWidget->AddToPlayerScreen();
+	//	//ChipHUDWidget->SetVisibility(ESlateVisibility::Visible);
+	//}
 }
 
 // Called every frame
-void AChip::Tick( float DeltaTime )
+void AChip::Tick(float DeltaTime)
 {
-	Super::Tick( DeltaTime );
+	Super::Tick(DeltaTime);
 
 }
 
@@ -103,7 +105,7 @@ void AChip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	check(PlayerInputComponent);
-	
+
 	InputComponent->BindAxis("MoveForward", this, &ThisClass::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &ThisClass::MoveRight);
 	InputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
@@ -120,7 +122,6 @@ void AChip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	InputComponent->BindAction("Interact", IE_Pressed, this, &ThisClass::Interact);
 	InputComponent->BindAction("ReadInv", IE_Pressed, this, &ThisClass::ReadInv);
 	InputComponent->BindAction("OpenCharPanel", IE_Pressed, this, &ThisClass::OpenCharPanel);
-	InputComponent->BindAction("PauseGame", IE_Pressed, this, &ThisClass::PauseGame);
 }
 
 bool AChip::GetIsLightAttacking()
@@ -130,6 +131,7 @@ bool AChip::GetIsLightAttacking()
 
 bool AChip::GetIsHeavyAttacking()
 {
+
 	return bisHeavyAttacking;
 }
 
@@ -172,12 +174,6 @@ void AChip::Interact()
 void AChip::LightAttackPressed()
 {
 	bisLightAttacking = true;
-	//If(GetEquippedWeaponType == Slashing)
-	//{CalculatedDamage = (Damage + GetWeaponDamage()) * 1.5f;
-	//else
-	//{CalculatedDamage = (Damage + GetWeaponDamage())
-	//OnCollisionWithEnemy
-	//DealDamage(CalculatedDamage)
 }
 
 void AChip::LightAttackReleased()
@@ -187,14 +183,11 @@ void AChip::LightAttackReleased()
 
 void AChip::HeavyAttackPressed()
 {
+	AGameMode* aux = Cast <AGameMode>(GetWorld()->GetAuthGameMode());
+	aux->RestartGame();
+
 	bisHeavyAttacking = true;
 	print("Heavy Attack");
-	//If(GetEquippedWeaponType == Bludgeoning)
-	//{CalculatedDamage = (Damage + GetWeaponDamage()) * 1.5f;
-	//else
-	//{CalculatedDamage = (Damage + GetWeaponDamage())
-	//OnCollisionWithEnemy
-	//DealDamage(CalculatedDamage)
 }
 
 void AChip::HeavyAttackReleased()
@@ -244,22 +237,6 @@ void AChip::OpenCharPanel()
 	}
 }
 
-void AChip::PauseGame()
-{
-	if (PauseGameWidget->Visibility == ESlateVisibility::Hidden)
-	{
-		PauseGameWidget->SetVisibility(ESlateVisibility::Visible);
-		print("Paused Game");
-	}
-	else if (PauseGameWidget->Visibility == ESlateVisibility::Visible)
-	{
-		PauseGameWidget->SetVisibility(ESlateVisibility::Hidden);
-		print("Un-Paused Game");
-	}
-
-	
-}
-
 void AChip::ReSpawn()
 {
 
@@ -287,7 +264,7 @@ void AChip::ReadInv()
 
 float AChip::GetHealthAsPercentage()
 {
-	return GetHealth()/ GetMaxHealth();	
+	return GetHealth() / GetMaxHealth();
 }
 
 float AChip::GetHealth()
@@ -407,5 +384,7 @@ void AChip::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
-}
 
+
+	
+}

@@ -9,12 +9,13 @@
  * 
  */
 UCLASS()
-class TRASHPANDA_API ATrashPandaGameModeBase : public AGameModeBase
+class TRASHPANDA_API ATrashPandaGameModeBase : public AGameMode
 {
 	GENERATED_BODY()
 
 public:
 		ATrashPandaGameModeBase(const FObjectInitializer& ObjectInitializer);
 	
+		virtual void RestartGame() ;
 
 };
