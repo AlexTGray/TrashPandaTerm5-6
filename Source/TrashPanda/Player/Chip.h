@@ -66,6 +66,7 @@ protected:
 	int32 CritChance;
 	int32 CritModifier;
 
+
 	//Pickup Collider
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Player)
 	class USphereComponent* PickupRadius;
@@ -151,4 +152,9 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	protected:
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class ABaseWeapon> StartingWeaponClass;
+	class ABaseWeapon* CurrentWeapon;
 };

@@ -2,6 +2,7 @@
 
 #include "TrashPanda.h"
 #include "Items/BaseItem.h"
+#include "Items/BaseWeapon.h"
 #include "Player/InventoryComponent.h"
 #include "Items/IMaterial.h"
 #include "Player/InventoryWidget.h"
@@ -81,6 +82,13 @@ void AChip::BeginPlay()
 		SwitchWidget->SetVisibility(ESlateVisibility::Hidden);
 	}
 
+	if (StartingWeaponClass)
+	{
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.Instigator = this;
+		CurrentWeapon = GetWorld()->SpawnActor<ABaseWeapon>(StartingWeaponClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParameters);
+
+	}
 
 
 	////Wont Add it to screen,
