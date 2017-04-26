@@ -83,6 +83,13 @@ protected:
 
 	class UAnimInstance* animInstance;
 
+	//PauseMenu
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UPauseWidget> PauseWidgetClass;
+
+	class UPauseWidget* PauseGameWidget;
+
+
 
 	//class Inventory* PlayerInventory;
 	UPROPERTY(EditDefaultsOnly)
@@ -114,6 +121,7 @@ protected:
 	void AddFury(int fury);
 	void OpenInv();
 	void OpenCharPanel();
+	void PauseGame();
 
 	void ReSpawn();
 	void Death();

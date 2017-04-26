@@ -16,6 +16,5 @@ class TRASHPANDA_API ATrashPandaGameModeBase : public AGameModeBase
 public:
 		ATrashPandaGameModeBase(const FObjectInitializer& ObjectInitializer);
 	
-	
 
 };

@@ -10,6 +10,7 @@
 #include "UI/CharacterWidgetSwitcher.h"
 #include "Player/Chip.h"
 #include "ChipHUDWidget.h"
+#include "UI/PauseWidget.h"
 
 #define print(text) if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Red,text) 
 
@@ -81,17 +82,13 @@ void AChip::BeginPlay()
 		SwitchWidget->SetVisibility(ESlateVisibility::Hidden);
 	}
 
+	if (PauseWidgetClass)
+	{
+		PauseGameWidget = CreateWidget<UPauseWidget>(GetWorld()->GetFirstPlayerController(), PauseWidgetClass);
+		PauseGameWidget->AddToPlayerScreen();
+		PauseGameWidget->SetVisibility(ESlateVisibility::Hidden);
+	}
 
-
-	////Wont Add it to screen,
-	////CRASHES THE GAME
-	//if (ChipHUDWidgetClass)
-	//{
-	//	UE_LOG(LogTemp, Warning, TEXT("CHIPHUDWIDGETCLASS EXISTS, THIS SHOULD ATTEMPT TO PUT IT ON SCREEN"));
-	//	//ChipHUDWidget = CreateWidget<UChipHUDWidget>(GetWorld()->GetFirstPlayerController(), ChipHUDWidgetClass);
-	//	//ChipHUDWidget->AddToPlayerScreen();
-	//	//ChipHUDWidget->SetVisibility(ESlateVisibility::Visible);
-	//}
 }
 
 // Called every frame
@@ -123,6 +120,7 @@ void AChip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	InputComponent->BindAction("Interact", IE_Pressed, this, &ThisClass::Interact);
 	InputComponent->BindAction("ReadInv", IE_Pressed, this, &ThisClass::ReadInv);
 	InputComponent->BindAction("OpenCharPanel", IE_Pressed, this, &ThisClass::OpenCharPanel);
+	InputComponent->BindAction("PauseGame", IE_Pressed, this, &ThisClass::PauseGame);
 }
 
 bool AChip::GetIsLightAttacking()
@@ -231,7 +229,23 @@ void AChip::OpenCharPanel()
 		{
 			SwitchWidget->SetVisibility(ESlateVisibility::Hidden);
 		}
+	}
 }
+
+void AChip::PauseGame()
+{
+	if (PauseGameWidget->Visibility == ESlateVisibility::Hidden)
+	{
+		PauseGameWidget->SetVisibility(ESlateVisibility::Visible);
+		print("Paused Game");
+	}
+	else if (PauseGameWidget->Visibility == ESlateVisibility::Visible)
+	{
+		PauseGameWidget->SetVisibility(ESlateVisibility::Hidden);
+		print("Un-Paused Game");
+	}
+
+	
 }
 
 void AChip::ReSpawn()
