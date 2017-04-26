@@ -38,7 +38,9 @@ void AFindPlayer::Tick( float DeltaTime )
 	FVector distance = this->GetActorLocation() - player->GetActorLocation();
 	int aux = distance.SizeSquared();
 	//int32 aux = FVector::Dist(this->GetActorLocation(), player->GetActorLocation());
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Some variable values: x: %f,%f,%f"),distance.X,distance.Y,distance.Z ));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Some variable values: x: %f,%f,%f"),distance.X,distance.Y,distance.Z ));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Some variable values: x: %f"), aux));
+
 
 
 }

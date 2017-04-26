@@ -1,5 +1,3 @@
-// All Rights Reserved for Students Graduating TFS Summer 2017
-
 #include "TrashPanda.h"
 #include "Items/BaseItem.h"
 #include "Player/InventoryComponent.h"
@@ -10,13 +8,14 @@
 #include "UI/CharacterWidgetSwitcher.h"
 #include "Player/Chip.h"
 #include "ChipHUDWidget.h"
+#include "TrashPandaGameModeBase.h"
 
 #define print(text) if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Red,text) 
 
 // Sets default values
 AChip::AChip()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	BaseTurnRate = 45.f;
@@ -42,15 +41,15 @@ AChip::AChip()
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character	
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
-	
-	// Create a follow camera
+
+												// Create a follow camera
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory"));
-//tags
-	RootComponent->ComponentTags.Add("Player");	
+	//tags
+	RootComponent->ComponentTags.Add("Player");
 	Tags.Add("Player");
 	this->Tags.Add("Player");
 	PickupRadius->ComponentTags.Add("Player");
@@ -95,9 +94,9 @@ void AChip::BeginPlay()
 }
 
 // Called every frame
-void AChip::Tick( float DeltaTime )
+void AChip::Tick(float DeltaTime)
 {
-	Super::Tick( DeltaTime );
+	Super::Tick(DeltaTime);
 
 }
 
@@ -106,7 +105,7 @@ void AChip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	check(PlayerInputComponent);
-	
+
 	InputComponent->BindAxis("MoveForward", this, &ThisClass::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &ThisClass::MoveRight);
 	InputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
@@ -132,6 +131,7 @@ bool AChip::GetIsLightAttacking()
 
 bool AChip::GetIsHeavyAttacking()
 {
+
 	return bisHeavyAttacking;
 }
 
@@ -183,6 +183,9 @@ void AChip::LightAttackReleased()
 
 void AChip::HeavyAttackPressed()
 {
+	AGameMode* aux = Cast <AGameMode>(GetWorld()->GetAuthGameMode());
+	aux->RestartGame();
+
 	bisHeavyAttacking = true;
 	print("Heavy Attack");
 }
@@ -231,7 +234,7 @@ void AChip::OpenCharPanel()
 		{
 			SwitchWidget->SetVisibility(ESlateVisibility::Hidden);
 		}
-}
+	}
 }
 
 void AChip::ReSpawn()
@@ -261,7 +264,7 @@ void AChip::ReadInv()
 
 float AChip::GetHealthAsPercentage()
 {
-	return GetHealth()/ GetMaxHealth();	
+	return GetHealth() / GetMaxHealth();
 }
 
 float AChip::GetHealth()
@@ -381,5 +384,7 @@ void AChip::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
-}
 
+
+	
+}

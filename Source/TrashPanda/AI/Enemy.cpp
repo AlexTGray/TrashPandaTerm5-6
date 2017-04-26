@@ -51,4 +51,7 @@ void AEnemy::Tick(float DeltaTime)
 void AEnemy::LootDrop()
 {
 
+	
 }
+
+
