@@ -1,5 +1,3 @@
-// All Rights Reserved for Students Graduating TFS Summer 2017
-
 #pragma once
 
 #include "GameFramework/Character.h"
@@ -16,20 +14,20 @@ public:
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
+
 	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
+	virtual void Tick(float DeltaSeconds) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseTurnRate;
+		float BaseTurnRate;
 
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseLookUpRate;
+		float BaseLookUpRate;
 
 	bool GetIsLightAttacking();
 	bool GetIsHeavyAttacking();
@@ -68,18 +66,18 @@ protected:
 
 	//Pickup Collider
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Player)
-	class USphereComponent* PickupRadius;
-	
+		class USphereComponent* PickupRadius;
+
 	//Camera Boom
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Player)
-	class USpringArmComponent* CameraBoom;
+		class USpringArmComponent* CameraBoom;
 
 	//Follow Cam
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FollowCamera;
+		class UCameraComponent* FollowCamera;
 
 	UPROPERTY(VisibleAnywhere, Category = Player)
-	class UInventoryComponent* Inventory;
+		class UInventoryComponent* Inventory;
 
 	class UAnimInstance* animInstance;
 
@@ -93,13 +91,13 @@ protected:
 
 	//class Inventory* PlayerInventory;
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class UInventoryWidget> InvWidgetClass;
+		TSubclassOf<class UInventoryWidget> InvWidgetClass;
 
 	class UInventoryWidget* InvWidget;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class UChipHUDWidget>ChipHUDWidgetClass;
-	
+		TSubclassOf<class UChipHUDWidget>ChipHUDWidgetClass;
+
 	class UChipHUDWidget* ChipHUDWidget;
 
 
@@ -108,7 +106,7 @@ protected:
 	class UCharacterWidgetSwitcher* SwitchWidget;
 
 	UPROPERTY(VisibleAnywhere, Category = Player)
-	TArray<AActor*> itemsInRange;
+		TArray<AActor*> itemsInRange;
 
 	void SetPlayerStats(int level);
 	void Interact();
@@ -131,10 +129,10 @@ protected:
 
 
 	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+		void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION()
-	void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+		void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 protected:
 	/** Called for forwards/backward input */
@@ -159,4 +157,12 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+
+
+	protected:
+		UPROPERTY()
+			TSubclassOf <class ABaseWeapon> StartingWeaponClass;
+		
+		class ABaseWeapon* CurrentWeapon;
 };
