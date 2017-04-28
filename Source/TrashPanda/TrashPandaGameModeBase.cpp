@@ -52,4 +52,3 @@ void ATrashPandaGameModeBase::RestartGame()
 	this->RestartPlayer(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 
 }
-

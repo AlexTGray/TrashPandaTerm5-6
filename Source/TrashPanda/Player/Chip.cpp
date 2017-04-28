@@ -114,12 +114,18 @@ void AChip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	InputComponent->BindAction("LAttack", IE_Released, this, &ThisClass::LightAttackReleased);
 	InputComponent->BindAction("HAttack", IE_Pressed, this, &ThisClass::HeavyAttackPressed);
 	InputComponent->BindAction("HAttack", IE_Released, this, &ThisClass::LightAttackReleased);
-	InputComponent->BindAction("OpenInv", IE_Pressed, this, &ThisClass::OpenInv);
 	InputComponent->BindAction("Dodge", IE_Pressed, this, &ThisClass::Dodge);
 	InputComponent->BindAction("Interact", IE_Pressed, this, &ThisClass::Interact);
 	InputComponent->BindAction("ReadInv", IE_Pressed, this, &ThisClass::ReadInv);
 	InputComponent->BindAction("OpenCharPanel", IE_Pressed, this, &ThisClass::OpenCharPanel);
-	InputComponent->BindAction("PauseGame", IE_Pressed, this, &ThisClass::PauseGame);
+
+	//Allow player to toggle pause
+	FInputActionBinding& pauseToggle = InputComponent->BindAction("PauseGame", IE_Pressed, this, &ThisClass::PauseGame);
+	pauseToggle.bExecuteWhenPaused = true;
+
+	//Allow player to toggle pause when opening inventory
+	FInputActionBinding& invToggle = InputComponent->BindAction("OpenInv", IE_Pressed, this, &ThisClass::OpenInv);
+	invToggle.bExecuteWhenPaused = true;
 }
 
 bool AChip::GetIsLightAttacking()
@@ -213,10 +219,12 @@ void AChip::OpenInv()
 	if (InvWidget->Visibility == ESlateVisibility::Hidden)
 	{
 		InvWidget->SetVisibility(ESlateVisibility::Visible);
+		PauseGame();
 	}
 	else if (InvWidget->Visibility == ESlateVisibility::Visible)
 	{
 		InvWidget->SetVisibility(ESlateVisibility::Hidden);
+		PauseGame();
 	}
 
 }
@@ -237,18 +245,45 @@ void AChip::OpenCharPanel()
 
 void AChip::PauseGame()
 {
-	if (PauseGameWidget->Visibility == ESlateVisibility::Hidden)
-	{
-		PauseGameWidget->SetVisibility(ESlateVisibility::Visible);
-		print("Paused Game");
-	}
-	else if (PauseGameWidget->Visibility == ESlateVisibility::Visible)
-	{
-		PauseGameWidget->SetVisibility(ESlateVisibility::Hidden);
-		print("Un-Paused Game");
-	}
-
 	
+	if (GamePaused == false) //Is the game Paused? If not, pause it.
+	{
+		UGameplayStatics::SetGamePaused(GetWorld(), true);
+		print("Paused Game");
+		GamePaused = true;
+		FInputModeGameAndUI Mode;
+		Mode.SetWidgetToFocus(PauseGameWidget->GetCachedWidget());
+		GetWorld()->GetFirstPlayerController()->SetInputMode(Mode);
+		GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
+
+		//Trying to get the mouse to return to center screen when you pause the game.
+		//FViewport* v = Cast<FViewport>(GetWorld()->GetGameViewport()->Viewport->SetMouse(0.5, 0.5));
+
+
+		//Is the inventory open? Then don't open the pause menu.
+		if (InvWidget->Visibility == ESlateVisibility::Hidden)
+		{
+			PauseGameWidget->SetVisibility(ESlateVisibility::Visible);
+		}
+	}
+	else //Is the game paused? If so, un-pause it.
+	{
+		UGameplayStatics::SetGamePaused(GetWorld(), false);
+		print("Un-Paused Game");
+		GamePaused = false;
+		FInputModeGameOnly GameOnly;
+		GetWorld()->GetFirstPlayerController()->SetInputMode(GameOnly);
+		GetWorld()->GetFirstPlayerController()->bShowMouseCursor = false;
+
+		if (InvWidget->Visibility == ESlateVisibility::Hidden)
+		{
+			PauseGameWidget->SetVisibility(ESlateVisibility::Hidden);
+		}
+		if (InvWidget->Visibility == ESlateVisibility::Visible)
+		{
+			InvWidget->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}
 }
 
 void AChip::ReSpawn()
@@ -370,6 +405,7 @@ void AChip::LookUpAtRate(float Rate)
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
+
 
 void AChip::MoveForward(float Value)
 {

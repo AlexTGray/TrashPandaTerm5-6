@@ -51,6 +51,8 @@ public:
 	void DebugHealth();
 	void DebugFury();
 
+	//Pause
+	void PauseGame();
 
 protected:
 	bool bisRabid;
@@ -63,6 +65,9 @@ protected:
 
 	int32 CritChance;
 	int32 CritModifier;
+
+	//Pause Toggle
+	bool GamePaused = false;
 
 	//Pickup Collider
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Player)
@@ -119,7 +124,7 @@ protected:
 	void AddFury(int fury);
 	void OpenInv();
 	void OpenCharPanel();
-	void PauseGame();
+
 
 	void ReSpawn();
 	void Death();
@@ -160,9 +165,10 @@ public:
 
 
 
-	protected:
-		UPROPERTY()
-			TSubclassOf <class ABaseWeapon> StartingWeaponClass;
+protected:
+	UPROPERTY()
+		TSubclassOf <class ABaseWeapon> StartingWeaponClass;
 		
-		class ABaseWeapon* CurrentWeapon;
+	class ABaseWeapon* CurrentWeapon;
+
 };
