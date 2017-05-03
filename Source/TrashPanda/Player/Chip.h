@@ -32,6 +32,8 @@ public:
 	bool GetIsLightAttacking();
 	bool GetIsHeavyAttacking();
 
+	int PlayerExperience;
+	int PlayerLevel;
 
 	float CurrentHealth;
 	float MaxHealth;
@@ -65,6 +67,12 @@ protected:
 
 	int32 CritChance;
 	int32 CritModifier;
+
+	enum ExperienceToLevel //28 levels for now, increase/decrease according to # of skills in skill trees/ max level
+	{
+		300, 900, 1200, 1500, 1800, 2100, 2400, 2700, 3000, 3300, 3600, 3900, 4200, 4500,
+		4800, 5100, 5400, 5700, 6000, 6300, 6600, 6900, 7200, 7500, 7800, 8100, 8400, 8700;
+	}
 
 	//Pause Toggle
 	bool GamePaused = false;
@@ -125,11 +133,16 @@ protected:
 	void OpenInv();
 	void OpenCharPanel();
 
+	void GainExperience(int amount);
+	void LevelUp(int overflowExperience);
+
 
 	void ReSpawn();
 	void Death();
 
 	void ReadInv();
+
+	void TakeDamage(float damage);
 
 
 
