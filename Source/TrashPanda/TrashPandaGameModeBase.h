@@ -15,7 +15,7 @@ class TRASHPANDA_API ATrashPandaGameModeBase : public AGameMode
 
 public:
 		ATrashPandaGameModeBase(const FObjectInitializer& ObjectInitializer);
-
-		virtual void RestartGame();
+	
+		virtual void RestartGame() ;
 
 };

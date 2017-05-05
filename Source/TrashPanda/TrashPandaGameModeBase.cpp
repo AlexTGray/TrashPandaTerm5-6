@@ -23,7 +23,7 @@ ATrashPandaGameModeBase::ATrashPandaGameModeBase(const FObjectInitializer& Objec
 	{
 		DefaultPawnClass = CharacterClass.Class;
 	}
-	
+
 	ConstructorHelpers::FClassFinder<APlayerHUD>ChipHUDWidgetClass(
 		TEXT("Blueprint'/Game/UI/ChipHUD.ChipHUD_C'"));
 	//cant find the HUD for some reason. fix.
@@ -38,7 +38,6 @@ ATrashPandaGameModeBase::ATrashPandaGameModeBase(const FObjectInitializer& Objec
 		UE_LOG(LogTemp, Warning, TEXT("!!!DID NOT SET CHIPHUDWIDGETCLASS AS DEFAULT HUD CLASS"));
 	}
 
-
 }
 
 
@@ -52,3 +51,4 @@ void ATrashPandaGameModeBase::RestartGame()
 	this->RestartPlayer(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 
 }
+

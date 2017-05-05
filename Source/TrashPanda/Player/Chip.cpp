@@ -8,7 +8,6 @@
 #include "UI/CharacterWidgetSwitcher.h"
 #include "Player/Chip.h"
 #include "ChipHUDWidget.h"
-#include "UI/PauseWidget.h"
 #include "TrashPandaGameModeBase.h"
 
 #define print(text) if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Red,text) 
@@ -81,13 +80,17 @@ void AChip::BeginPlay()
 		SwitchWidget->SetVisibility(ESlateVisibility::Hidden);
 	}
 
-	if (PauseWidgetClass)
-	{
-		PauseGameWidget = CreateWidget<UPauseWidget>(GetWorld()->GetFirstPlayerController(), PauseWidgetClass);
-		PauseGameWidget->AddToPlayerScreen();
-		PauseGameWidget->SetVisibility(ESlateVisibility::Hidden);
-	}
 
+
+	////Wont Add it to screen,
+	////CRASHES THE GAME
+	//if (ChipHUDWidgetClass)
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("CHIPHUDWIDGETCLASS EXISTS, THIS SHOULD ATTEMPT TO PUT IT ON SCREEN"));
+	//	//ChipHUDWidget = CreateWidget<UChipHUDWidget>(GetWorld()->GetFirstPlayerController(), ChipHUDWidgetClass);
+	//	//ChipHUDWidget->AddToPlayerScreen();
+	//	//ChipHUDWidget->SetVisibility(ESlateVisibility::Visible);
+	//}
 }
 
 // Called every frame
@@ -114,18 +117,11 @@ void AChip::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	InputComponent->BindAction("LAttack", IE_Released, this, &ThisClass::LightAttackReleased);
 	InputComponent->BindAction("HAttack", IE_Pressed, this, &ThisClass::HeavyAttackPressed);
 	InputComponent->BindAction("HAttack", IE_Released, this, &ThisClass::LightAttackReleased);
+	InputComponent->BindAction("OpenInv", IE_Pressed, this, &ThisClass::OpenInv);
 	InputComponent->BindAction("Dodge", IE_Pressed, this, &ThisClass::Dodge);
 	InputComponent->BindAction("Interact", IE_Pressed, this, &ThisClass::Interact);
 	InputComponent->BindAction("ReadInv", IE_Pressed, this, &ThisClass::ReadInv);
 	InputComponent->BindAction("OpenCharPanel", IE_Pressed, this, &ThisClass::OpenCharPanel);
-
-	//Allow player to toggle pause
-	FInputActionBinding& pauseToggle = InputComponent->BindAction("PauseGame", IE_Pressed, this, &ThisClass::PauseGame);
-	pauseToggle.bExecuteWhenPaused = true;
-
-	//Allow player to toggle pause when opening inventory
-	FInputActionBinding& invToggle = InputComponent->BindAction("OpenInv", IE_Pressed, this, &ThisClass::OpenInv);
-	invToggle.bExecuteWhenPaused = true;
 }
 
 bool AChip::GetIsLightAttacking()
@@ -231,12 +227,10 @@ void AChip::OpenInv()
 	if (InvWidget->Visibility == ESlateVisibility::Hidden)
 	{
 		InvWidget->SetVisibility(ESlateVisibility::Visible);
-		PauseGame();
 	}
 	else if (InvWidget->Visibility == ESlateVisibility::Visible)
 	{
 		InvWidget->SetVisibility(ESlateVisibility::Hidden);
-		PauseGame();
 	}
 
 }
@@ -255,98 +249,14 @@ void AChip::OpenCharPanel()
 	}
 }
 
-
-//Experience bar needs to update a bar on the HUD eventually. ------TO DO----------------
-void AChip::GainExperience(int amount)
-{
-	//Increase Experience
-	PlayerExperience += amount;
-
-	//If the player has earned enough exp to level up
-	if (PlayerExperience >= ExperienceToLevel(PlayerLevel))
-	{
-		//Calculate the overflow of experience gained (Eg; 1200 PlayerExperience - 900)
-		int overflowExperience = PlayerExperience - ExperienceToLevel(PlayerLevel);
-		//Call LevelUp and pass it the overflow of exp. (Alternatively, I could just do that in here, but why not.
-		LevelUp(overflowExperience);
-	}
-}
-
-void AChip::LevelUp(int overflowExperience)
-{
-	//Increase PlayerLevel 
-	PlayerLevel += 1;
-
-	//Make sure they didn't level up twice, somehow. If so, gain that experience again and calculate if they player needs to level up.
-	if (overflowExperience >= ExperienceToLevel(PlayerLevel))
-	{
-		GainExperience(overflowExperience);
-	}
-	else
-	{
-		PlayerExperience = overflowExperience;
-	}
-	//Also call any function necessary to change base stats like damage or anything that increases as we level.
-	//I believe the function to do that is SetPlayerStats(); but we need the "int level" we pass it to actually do something
-}
-
-void AChip::PauseGame()
-{
-	
-	if (GamePaused == false) //Is the game Paused? If not, pause it.
-	{
-		UGameplayStatics::SetGamePaused(GetWorld(), true);
-		print("Paused Game");
-		GamePaused = true;
-		FInputModeGameAndUI Mode;
-		Mode.SetWidgetToFocus(PauseGameWidget->GetCachedWidget());
-		GetWorld()->GetFirstPlayerController()->SetInputMode(Mode);
-		GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
-
-		//Trying to get the mouse to return to center screen when you pause the game.
-		//FViewport* v = Cast<FViewport>(GetWorld()->GetGameViewport()->Viewport->SetMouse(0.5, 0.5));
-
-
-		//Is the inventory open? Then don't open the pause menu.
-		if (InvWidget->Visibility == ESlateVisibility::Hidden)
-		{
-			PauseGameWidget->SetVisibility(ESlateVisibility::Visible);
-		}
-	}
-	else //Is the game paused? If so, un-pause it.
-	{
-		UGameplayStatics::SetGamePaused(GetWorld(), false);
-		print("Un-Paused Game");
-		GamePaused = false;
-		FInputModeGameOnly GameOnly;
-		GetWorld()->GetFirstPlayerController()->SetInputMode(GameOnly);
-		GetWorld()->GetFirstPlayerController()->bShowMouseCursor = false;
-
-		if (InvWidget->Visibility == ESlateVisibility::Hidden)
-		{
-			PauseGameWidget->SetVisibility(ESlateVisibility::Hidden);
-		}
-		if (InvWidget->Visibility == ESlateVisibility::Visible)
-		{
-			InvWidget->SetVisibility(ESlateVisibility::Hidden);
-		}
-	}
-}
-
 void AChip::ReSpawn()
 {
-	print("Hello World");
-	//Needs to reset the player position, player stats, enemies, and everything in the whole level, basically. 
-	//We need the reset function to accurately reset everything in level 1.
+
 }
 
 void AChip::Death()
 {
-	print("You died...")//Dark souls style lol
 
-	//Need to instantiate a menu that asks whether the player wants to retry (ReSpawn();) or return to the main menu? (Maybe just respawn and quit.)
-
-	//ReSpawn(); //?
 }
 
 void AChip::ReadInv()
@@ -361,16 +271,6 @@ void AChip::ReadInv()
 		//count = Inventory->GetItems().Find(ABaseItem::StaticClass());
 		//UE_LOG(LogTemp, Warning, TEXT("Items in TMap %d"), count);
 		UE_LOG(LogTemp, Warning, TEXT("Items in TMap %d"), num);
-	}
-}
-
-void AChip::TakeDamage(float damage)
-{
-	CurrentHealth -= damage;
-
-	if (CurrentHealth <= 0)
-	{
-		Death();
 	}
 }
 
@@ -469,7 +369,6 @@ void AChip::LookUpAtRate(float Rate)
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
-
 void AChip::MoveForward(float Value)
 {
 	if ((Controller != NULL) && (Value != 0.0f))
@@ -501,24 +400,3 @@ void AChip::MoveRight(float Value)
 
 	
 }
-
-
-// TO DO - Nick:
-/* 
-(Please do not remove this, I will get to that. This is just the easiest way to keep track of my progress, considering that I work in/with this class so often.)
-	- Inventory needs to create images of items, their stack size, and anything else needed in the inventory. (tooltips?)
-	- Make widget blueprint and class for pop-up window on death.
-	- Player needs to die (play death animation) and then create the window, asking them to "Retry?" or "Quit?". On selection, do either ReSpawn(); or just quit the game.
-	- Create main menu widget class to go with the blueprint I made and re-parent the blueprint to the class for it's functions.
-	- Work on displaying consumables on the HUD. Also, make the consumables simply grab the player's CurrentHealth and increase it by the consumable's HealthRegain function.
-	- Add a pop-up window when overlapping an item (using the OnOverlapStart and End we have already to instantiate it.) that displays the names of the items in range.
-	- (Crafting can be potentially put into the inventory class so it can share the add/remove functions and anything else it needs.)
-	- Crafting menu needs to have a "Craft" function that checks the crafting choice, checks inventory for required items, and calls the add/remove functions in inventory for the necessary items.
-	- To craft, the player will select 2 items to merge and pass their item IDs to the craft function to find, craft, add, and remove items.
-	- Create a crafting tutorial. (Pop-Up window that has 3 options; Next, Back, and Close.)
-	- The tutorial will provide worded tips and eventually pictures of what to do. (stretch goal is to have it move around or point to locations)(Alternative goal is to have gifs or videos show what to do.) 
-	- Player Experience stat. Player LevelUp(); function. Levelling up needs to add to level and change new requirement to a new number (use an enum to store these values Eg. 0 = 1000exp, 1 = 3000exp, etc).
-	- Overlapping experience gained needs to be added to the new experience level. (basically, if i needed 1000exp and gained 1200, I should be at 200 exp towards the next level.)
-	- Many more things to add here, I'm sure. Will update this list as I complete things.
-	
-*/
