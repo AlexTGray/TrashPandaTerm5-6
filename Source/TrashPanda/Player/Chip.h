@@ -66,6 +66,7 @@ protected:
 	int32 CritChance;
 	int32 CritModifier;
 
+
 	//Pickup Collider
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Player)
 	class USphereComponent* PickupRadius;
@@ -89,6 +90,9 @@ protected:
 	TSubclassOf<class UInventoryWidget> InvWidgetClass;
 
 	class UInventoryWidget* InvWidget;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UItemWidget> ItemWidgetClass;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UChipHUDWidget>ChipHUDWidgetClass;
@@ -120,7 +124,7 @@ protected:
 
 	void ReadInv();
 
-
+	int32 CountInv();
 
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
@@ -151,4 +155,9 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	protected:
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class ABaseWeapon> StartingWeaponClass;
+	class ABaseWeapon* CurrentWeapon;
 };

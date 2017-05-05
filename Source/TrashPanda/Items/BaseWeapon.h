@@ -34,7 +34,10 @@ protected:
 	class UStaticMeshComponent* mesh;
 
 	UPROPERTY(EditDefaultsOnly, Category = Weapon)
-	int32 Damage;
+	int32 LightDamage;
+
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
+	int32 HeavyDamage;
 
 	UPROPERTY(EditDefaultsOnly, Category = Weapon)
 	int32 AttackSpeed;

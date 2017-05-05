@@ -16,8 +16,12 @@ class TRASHPANDA_API UInventoryWidget : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 
+	UUniformGridPanel* GetGridPanel();
+	
 
 protected:
+
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (BindWidget), Category = Widgets)
 	class UUniformGridPanel* GridPanel;
 	
