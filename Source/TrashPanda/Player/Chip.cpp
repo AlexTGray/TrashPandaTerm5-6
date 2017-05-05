@@ -330,7 +330,7 @@ void AChip::ReSpawn()
 
 void AChip::Death()
 {
-	print("You died...")//Dark souls style lol
+	print("You died...");//Dark souls style lol
 
 	//Need to instantiate a menu that asks whether the player wants to retry (ReSpawn();) or return to the main menu? (Maybe just respawn and quit.)
 

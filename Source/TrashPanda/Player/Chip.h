@@ -68,11 +68,13 @@ protected:
 	int32 CritChance;
 	int32 CritModifier;
 
+	//UENUM(BlueprintType, Category = "Levels")
 	enum ExperienceToLevel //28 levels for now, increase/decrease according to # of skills in skill trees/ max level
 	{
-		300, 900, 1200, 1500, 1800, 2100, 2400, 2700, 3000, 3300, 3600, 3900, 4200, 4500,
-		4800, 5100, 5400, 5700, 6000, 6300, 6600, 6900, 7200, 7500, 7800, 8100, 8400, 8700;
-	}
+		LevelOne = 300, LevelTwo = 900, LevelThree = 1200, LevelFour = 1500, LevelFive = 1800, LevelSix = 2100, LevelSeven = 2400, LevelEight = 2700, LevelNine = 3000, LevelTen = 3300, LevelEleven = 3600, LevelTwelve = 3900, 
+		LevelThirteen = 4200, LevelFourteen = 4500, LevelFifteen = 4800, LevelSixteen = 5100, LevelSeventeen = 5400, LevelEighteen = 5700, LevelNineteen = 6000, LevelTwenty = 6300, LevelTwentyOne = 6600, 
+		LevelTwentyTwo = 6900, LevelTwentyThree = 7200, LevelTwentyFour = 7500, LevelTwentyFive = 7800, LevelTwentySix = 8100, LevelTwentySeven = 8400, LevelTwentyEight = 8700, LevelTwentyNine = 9000, LevelThirty = 9300
+	};
 
 	//Pause Toggle
 	bool GamePaused = false;
