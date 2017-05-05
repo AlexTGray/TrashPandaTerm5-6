@@ -10,3 +10,7 @@ void UInventoryWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 }
+UUniformGridPanel* UInventoryWidget::GetGridPanel()
+{
+	return GridPanel;
+}

@@ -92,6 +92,9 @@ protected:
 	class UInventoryWidget* InvWidget;
 
 	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UItemWidget> ItemWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UChipHUDWidget>ChipHUDWidgetClass;
 	
 	class UChipHUDWidget* ChipHUDWidget;
@@ -121,7 +124,7 @@ protected:
 
 	void ReadInv();
 
-
+	int32 CountInv();
 
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
