@@ -34,13 +34,27 @@ public:
 	bool GetIsLightAttacking();
 	bool GetIsHeavyAttacking();
 
-protected:
 
-	int32 Health;
-	int32 MaxHealth;
-	int32 Fury;
+	float CurrentHealth;
+	float MaxHealth;
+	int32 CurrentFury;
 	int32 MaxFury;
 
+	float GetHealthAsPercentage();
+	float GetHealth();
+	float GetMaxHealth();
+	float GetFuryAsPercentage();
+	float GetFury();
+	float GetMaxFury();
+	int GetHConsumablesQuantity();
+	int GetFConsumablesQuantity();
+
+	//Functions to debug health and fury
+	void DebugHealth();
+	void DebugFury();
+
+
+protected:
 	bool bisRabid;
 	bool bisLightAttacking;
 	bool bisHeavyAttacking;
@@ -51,6 +65,7 @@ protected:
 
 	int32 CritChance;
 	int32 CritModifier;
+
 
 	//Pickup Collider
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Player)
@@ -77,11 +92,17 @@ protected:
 	class UInventoryWidget* InvWidget;
 
 	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UItemWidget> ItemWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UChipHUDWidget>ChipHUDWidgetClass;
+	
+	class UChipHUDWidget* ChipHUDWidget;
+
+
 	TSubclassOf<class UCharacterWidgetSwitcher> WidgetSwitcherClass;
 
 	class UCharacterWidgetSwitcher* SwitchWidget;
-
-
 
 	UPROPERTY(VisibleAnywhere, Category = Player)
 	TArray<AActor*> itemsInRange;
@@ -102,6 +123,8 @@ protected:
 	void Death();
 
 	void ReadInv();
+
+	int32 CountInv();
 
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
@@ -132,4 +155,9 @@ public:
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+
+	protected:
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class ABaseWeapon> StartingWeaponClass;
+	class ABaseWeapon* CurrentWeapon;
 };

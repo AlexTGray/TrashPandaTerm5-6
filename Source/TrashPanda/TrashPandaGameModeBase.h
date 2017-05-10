@@ -13,7 +13,9 @@ class TRASHPANDA_API ATrashPandaGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 
+public:
 		ATrashPandaGameModeBase(const FObjectInitializer& ObjectInitializer);
 	
 	
+
 };
