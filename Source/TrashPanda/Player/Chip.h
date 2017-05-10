@@ -65,6 +65,17 @@ protected:
 	int32 CritModifier;
 
 
+	//UENUM(BlueprintType, Category = "Levels")
+	enum ExperienceToLevel //28 levels for now, increase/decrease according to # of skills in skill trees/ max level
+	{
+		LevelOne = 300, LevelTwo = 900, LevelThree = 1200, LevelFour = 1500, LevelFive = 1800, LevelSix = 2100, LevelSeven = 2400, LevelEight = 2700, LevelNine = 3000, LevelTen = 3300, LevelEleven = 3600, LevelTwelve = 3900, 
+		LevelThirteen = 4200, LevelFourteen = 4500, LevelFifteen = 4800, LevelSixteen = 5100, LevelSeventeen = 5400, LevelEighteen = 5700, LevelNineteen = 6000, LevelTwenty = 6300, LevelTwentyOne = 6600, 
+		LevelTwentyTwo = 6900, LevelTwentyThree = 7200, LevelTwentyFour = 7500, LevelTwentyFive = 7800, LevelTwentySix = 8100, LevelTwentySeven = 8400, LevelTwentyEight = 8700, LevelTwentyNine = 9000, LevelThirty = 9300
+	};
+
+	//Pause Toggle
+	bool GamePaused = false;
+
 	//Pickup Collider
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Player)
 		class USphereComponent* PickupRadius;

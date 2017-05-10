@@ -306,8 +306,65 @@ void AChip::Death()
 }
 int32 AChip::CountInv()
 {
+
 	int32 num = Inventory->GetItems().Num();
 	return num;
+
+	
+	if (GamePaused == false) //Is the game Paused? If not, pause it.
+	{
+		UGameplayStatics::SetGamePaused(GetWorld(), true);
+		print("Paused Game");
+		GamePaused = true;
+		FInputModeGameAndUI Mode;
+		Mode.SetWidgetToFocus(PauseGameWidget->GetCachedWidget());
+		GetWorld()->GetFirstPlayerController()->SetInputMode(Mode);
+		GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
+
+		//Trying to get the mouse to return to center screen when you pause the game.
+		//FViewport* v = Cast<FViewport>(GetWorld()->GetGameViewport()->Viewport->SetMouse(0.5, 0.5));
+
+
+		//Is the inventory open? Then don't open the pause menu.
+		if (InvWidget->Visibility == ESlateVisibility::Hidden)
+		{
+			PauseGameWidget->SetVisibility(ESlateVisibility::Visible);
+		}
+	}
+	else //Is the game paused? If so, un-pause it.
+	{
+		UGameplayStatics::SetGamePaused(GetWorld(), false);
+		print("Un-Paused Game");
+		GamePaused = false;
+		FInputModeGameOnly GameOnly;
+		GetWorld()->GetFirstPlayerController()->SetInputMode(GameOnly);
+		GetWorld()->GetFirstPlayerController()->bShowMouseCursor = false;
+
+		if (InvWidget->Visibility == ESlateVisibility::Hidden)
+		{
+			PauseGameWidget->SetVisibility(ESlateVisibility::Hidden);
+		}
+		if (InvWidget->Visibility == ESlateVisibility::Visible)
+		{
+			InvWidget->SetVisibility(ESlateVisibility::Hidden);
+		}
+	}
+}
+
+void AChip::ReSpawn()
+{
+	print("Hello World");
+	//Needs to reset the player position, player stats, enemies, and everything in the whole level, basically. 
+	//We need the reset function to accurately reset everything in level 1.
+}
+
+void AChip::Death()
+{
+	print("You died...");//Dark souls style lol
+
+	//Need to instantiate a menu that asks whether the player wants to retry (ReSpawn();) or return to the main menu? (Maybe just respawn and quit.)
+
+	//ReSpawn(); //?
 }
 
 void AChip::ReadInv()
