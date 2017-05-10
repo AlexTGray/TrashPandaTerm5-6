@@ -32,8 +32,8 @@ public:
 	bool GetIsLightAttacking();
 	bool GetIsHeavyAttacking();
 
-	int PlayerExperience;
-	int PlayerLevel;
+	int32 PlayerExperience;
+	int32 PlayerLevel;
 
 	float CurrentHealth;
 	float MaxHealth;
@@ -48,6 +48,8 @@ public:
 	float GetMaxFury();
 	int GetHConsumablesQuantity();
 	int GetFConsumablesQuantity();
+
+	void TakeDamage(float damage);
 
 	//Functions to debug health and fury
 	void DebugHealth();
@@ -77,7 +79,7 @@ protected:
 	};
 
 	//Pause Toggle
-	bool GamePaused = false;
+	bool bGamePaused = false;
 
 	//Pickup Collider
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Player)
@@ -94,7 +96,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = Player)
 		class UInventoryComponent* Inventory;
 
-	class UAnimInstance* animInstance;
+	class UAnimInstance* AnimInstance;
 
 	//PauseMenu
 	UPROPERTY(EditDefaultsOnly)
@@ -123,7 +125,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = Player)
 		TArray<AActor*> itemsInRange;
 
-	void SetPlayerStats(int level);
+	void SetPlayerStats(int32 level);
 	void Interact();
 	void LightAttackPressed();
 	void LightAttackReleased();
@@ -131,12 +133,12 @@ protected:
 	void HeavyAttackReleased();
 	void Dodge();
 	void Rabid();
-	void AddFury(int fury);
+	void AddFury(int32 fury);
 	void OpenInv();
 	void OpenCharPanel();
 
-	void GainExperience(int amount);
-	void LevelUp(int overflowExperience);
+	void GainExperience(int32 amount);
+	void LevelUp(int32 overflowExperience);
 
 
 	void ReSpawn();
@@ -144,7 +146,7 @@ protected:
 
 	void ReadInv();
 
-	void TakeDamage(float damage);
+	
 
 
 

@@ -64,7 +64,7 @@ void AChip::BeginPlay()
 	PickupRadius->OnComponentBeginOverlap.AddDynamic(this, &ThisClass::OnOverlapBegin);
 	PickupRadius->OnComponentEndOverlap.AddDynamic(this, &ThisClass::OnOverlapEnd);
 
-	animInstance = GetMesh()->GetAnimInstance();
+	AnimInstance = GetMesh()->GetAnimInstance();
 	SetPlayerStats(1);
 
 	if (InvWidgetClass)
@@ -139,7 +139,7 @@ bool AChip::GetIsHeavyAttacking()
 	return bisHeavyAttacking;
 }
 
-void AChip::SetPlayerStats(int level)
+void AChip::SetPlayerStats(int32 level)
 {
 	MaxHealth = 100;
 	MaxFury = 100;
@@ -157,7 +157,7 @@ void AChip::SetPlayerStats(int level)
 void AChip::Interact()
 {
 	print("Interacting...");
-	for (int i = 0; i < itemsInRange.Num(); i++)
+	for (int32 i = 0; i < itemsInRange.Num(); i++)
 	{
 		if (itemsInRange[i])
 		{
@@ -209,7 +209,7 @@ void AChip::Rabid()
 	print("Rabid");
 }
 
-void AChip::AddFury(int fury)
+void AChip::AddFury(int32 fury)
 {
 	CurrentFury += fury;
 }
@@ -245,7 +245,7 @@ void AChip::OpenCharPanel()
 
 
 //Experience bar needs to update a bar on the HUD eventually. ------TO DO----------------
-void AChip::GainExperience(int amount)
+void AChip::GainExperience(int32 amount)
 {
 	//Increase Experience
 	PlayerExperience += amount;
@@ -254,13 +254,13 @@ void AChip::GainExperience(int amount)
 	if (PlayerExperience >= ExperienceToLevel(PlayerLevel))
 	{
 		//Calculate the overflow of experience gained (Eg; 1200 PlayerExperience - 900)
-		int overflowExperience = PlayerExperience - ExperienceToLevel(PlayerLevel);
+		int32 overflowExperience = PlayerExperience - ExperienceToLevel(PlayerLevel);
 		//Call LevelUp and pass it the overflow of exp. (Alternatively, I could just do that in here, but why not.
 		LevelUp(overflowExperience);
 	}
 }
 
-void AChip::LevelUp(int overflowExperience)
+void AChip::LevelUp(int32 overflowExperience)
 {
 	//Increase PlayerLevel 
 	PlayerLevel += 1;
@@ -281,11 +281,11 @@ void AChip::LevelUp(int overflowExperience)
 void AChip::PauseGame()
 {
 	
-	if (GamePaused == false) //Is the game Paused? If not, pause it.
+	if (bGamePaused == false) //Is the game Paused? If not, pause it.
 	{
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
 		print("Paused Game");
-		GamePaused = true;
+		bGamePaused = true;
 		FInputModeGameAndUI Mode;
 		Mode.SetWidgetToFocus(PauseGameWidget->GetCachedWidget());
 		GetWorld()->GetFirstPlayerController()->SetInputMode(Mode);
@@ -305,7 +305,7 @@ void AChip::PauseGame()
 	{
 		UGameplayStatics::SetGamePaused(GetWorld(), false);
 		print("Un-Paused Game");
-		GamePaused = false;
+		bGamePaused = false;
 		FInputModeGameOnly GameOnly;
 		GetWorld()->GetFirstPlayerController()->SetInputMode(GameOnly);
 		GetWorld()->GetFirstPlayerController()->bShowMouseCursor = false;
@@ -317,6 +317,10 @@ void AChip::PauseGame()
 		if (InvWidget->Visibility == ESlateVisibility::Visible)
 		{
 			InvWidget->SetVisibility(ESlateVisibility::Hidden);
+		}
+		if (PauseGameWidget->SetVisibility(ESlateVisibility::Visible))
+		{
+			PauseGameWidget->SetVisibility(ESlateVisibility::Hidden);
 		}
 	}
 }
