@@ -371,7 +371,7 @@ int32 AChip::CountInv()
 		{
 			InvWidget->SetVisibility(ESlateVisibility::Hidden);
 		}
-		if (PauseGameWidget->SetVisibility(ESlateVisibility::Visible))
+		if (PauseGameWidget->Visibility == ESlateVisibility::Visible)
 		{
 			PauseGameWidget->SetVisibility(ESlateVisibility::Hidden);
 		}
