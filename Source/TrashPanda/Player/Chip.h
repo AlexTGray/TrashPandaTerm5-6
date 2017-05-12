@@ -32,11 +32,10 @@ public:
 	bool GetIsLightAttacking();
 	bool GetIsHeavyAttacking();
 
-<<<<<<< HEAD
-=======
+
 	int32 PlayerExperience;
 	int32 PlayerLevel;
->>>>>>> refs/remotes/origin/Nick_Branch2
+
 
 	float CurrentHealth;
 	float MaxHealth;
@@ -67,7 +66,6 @@ protected:
 	int32 DamageReduction;
 	int32 Speed;
 	int32 DodgeDistance;
-
 	int32 CritChance;
 	int32 CritModifier;
 
@@ -75,8 +73,8 @@ protected:
 	//UENUM(BlueprintType, Category = "Levels")
 	enum ExperienceToLevel //28 levels for now, increase/decrease according to # of skills in skill trees/ max level
 	{
-		LevelOne = 300, LevelTwo = 900, LevelThree = 1200, LevelFour = 1500, LevelFive = 1800, LevelSix = 2100, LevelSeven = 2400, LevelEight = 2700, LevelNine = 3000, LevelTen = 3300, LevelEleven = 3600, LevelTwelve = 3900, 
-		LevelThirteen = 4200, LevelFourteen = 4500, LevelFifteen = 4800, LevelSixteen = 5100, LevelSeventeen = 5400, LevelEighteen = 5700, LevelNineteen = 6000, LevelTwenty = 6300, LevelTwentyOne = 6600, 
+		LevelOne = 300, LevelTwo = 900, LevelThree = 1200, LevelFour = 1500, LevelFive = 1800, LevelSix = 2100, LevelSeven = 2400, LevelEight = 2700, LevelNine = 3000, LevelTen = 3300, LevelEleven = 3600, LevelTwelve = 3900,
+		LevelThirteen = 4200, LevelFourteen = 4500, LevelFifteen = 4800, LevelSixteen = 5100, LevelSeventeen = 5400, LevelEighteen = 5700, LevelNineteen = 6000, LevelTwenty = 6300, LevelTwentyOne = 6600,
 		LevelTwentyTwo = 6900, LevelTwentyThree = 7200, LevelTwentyFour = 7500, LevelTwentyFive = 7800, LevelTwentySix = 8100, LevelTwentySeven = 8400, LevelTwentyEight = 8700, LevelTwentyNine = 9000, LevelThirty = 9300
 	};
 
@@ -108,15 +106,13 @@ protected:
 	class UInventoryWidget* InvWidget;
 
 	UPROPERTY(EditDefaultsOnly)
-
 		TSubclassOf<class UChipHUDWidget>ChipHUDWidgetClass;
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<class UItemWidget> ItemWidgetClass;
 
-	TSubclassOf<class UItemWidget> ItemWidgetClass;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class UChipHUDWidget>ChipHUDWidgetClass;
-	
-	class UChipHUDWidget* ChipHUDWidget;
+		class UChipHUDWidget* ChipHUDWidget;
 
 
 	TSubclassOf<class UCharacterWidgetSwitcher> WidgetSwitcherClass;
@@ -125,6 +121,10 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = Player)
 		TArray<AActor*> itemsInRange;
+
+
+	TSubclassOf<class PauseGameWidget>PauseGameWidget;
+
 
 	void SetPlayerStats(int32 level);
 	void Interact();
@@ -138,25 +138,21 @@ protected:
 	void OpenInv();
 	void OpenCharPanel();
 
-<<<<<<< HEAD
-=======
+
 	void GainExperience(int32 amount);
 	void LevelUp(int32 overflowExperience);
 
 
->>>>>>> refs/remotes/origin/Nick_Branch2
 	void ReSpawn();
 	void Death();
 
 	void ReadInv();
 
-<<<<<<< HEAD
+
 	int32 CountInv();
-=======
-	
 
 
->>>>>>> refs/remotes/origin/Nick_Branch2
+
 
 	UFUNCTION()
 		void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
@@ -189,16 +185,8 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 
-
-	protected:
-		UPROPERTY()
-			TSubclassOf <class ABaseWeapon> StartingWeaponClass;
-		
-		class ABaseWeapon* CurrentWeapon;
-};
-	protected:
+protected:
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class ABaseWeapon> StartingWeaponClass;
+		TSubclassOf<class ABaseWeapon> StartingWeaponClass;
 	class ABaseWeapon* CurrentWeapon;
 };
-

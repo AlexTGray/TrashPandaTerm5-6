@@ -255,17 +255,17 @@ void AChip::OpenInv()
 			UItemWidget* ItemWidget = CreateWidget<UItemWidget>(GetWorld()->GetFirstPlayerController(), ItemWidgetClass);
 			UUniformGridSlot* test = InvWidget->GetGridPanel()->AddChildToUniformGrid(ItemWidget);
 			if (test)
-				{
+			{
 				test->UUniformGridSlot::SetColumn(columns);
 				test->UUniformGridSlot::SetRow(rows);
-				}
+			}
 			else
-				 {
+			{
 				UE_LOG(LogTemp, Error, TEXT("UniformGridSlot Pointer NULL"));
 				return;
-				}
-						//ItemWidget->SetItemImage();
-				ItemWidget->SetQuantity(10);
+			}
+			//ItemWidget->SetItemImage();
+			ItemWidget->SetQuantity(10);
 			columns++;
 			if (columns >= 3)
 			{
@@ -273,13 +273,13 @@ void AChip::OpenInv()
 				rows++;
 			}
 		}
-}
+	}
 	else if (InvWidget->Visibility == ESlateVisibility::Visible)
 	{
 		InvWidget->SetVisibility(ESlateVisibility::Hidden);
 	}
 
- }
+}
 void AChip::OpenCharPanel()
 {
 	if (SwitchWidget)
@@ -295,20 +295,17 @@ void AChip::OpenCharPanel()
 	}
 }
 
-<<<<<<< HEAD
+
 void AChip::ReSpawn()
-=======
+{
+}
+
+
 
 //Experience bar needs to update a bar on the HUD eventually. ------TO DO----------------
 void AChip::GainExperience(int32 amount)
->>>>>>> refs/remotes/origin/Nick_Branch2
 {
 
-<<<<<<< HEAD
-}
-
-void AChip::Death()
-=======
 	//If the player has earned enough exp to level up
 	if (PlayerExperience >= ExperienceToLevel(PlayerLevel))
 	{
@@ -317,20 +314,26 @@ void AChip::Death()
 		//Call LevelUp and pass it the overflow of exp. (Alternatively, I could just do that in here, but why not.
 		LevelUp(overflowExperience);
 	}
+
 }
 
+void AChip::Death()
+{
+}
+
+
 void AChip::LevelUp(int32 overflowExperience)
->>>>>>> refs/remotes/origin/Nick_Branch2
 {
 
 }
+
 int32 AChip::CountInv()
 {
 
 	int32 num = Inventory->GetItems().Num();
 	return num;
 
-	
+
 	if (bGamePaused == false) //Is the game Paused? If not, pause it.
 	{
 		UGameplayStatics::SetGamePaused(GetWorld(), true);
@@ -446,6 +449,10 @@ int AChip::GetFConsumablesQuantity()
 	return 4; //setting to test
 }
 
+void AChip::TakeDamage(float damage)
+{
+}
+
 void AChip::DebugHealth()
 {
 	//Debugging to the screen
@@ -530,5 +537,5 @@ void AChip::MoveRight(float Value)
 	}
 
 
-	
+
 }
