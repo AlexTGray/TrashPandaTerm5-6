@@ -5,7 +5,7 @@
 #include "TrashPandaPlayerState.h"
 #include "TrashPandaGameState.h"
 #include "TrashPandaGameModeBase.h"
-#include "PlayerHUD.h"
+#include "UI/PlayerHUD.h"
 
 
 

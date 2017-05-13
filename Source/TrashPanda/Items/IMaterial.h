@@ -18,7 +18,7 @@ public:
 	virtual void BeginPlay() override;
 
 protected:
-	bool Consume(int toUSE) override;
+	bool Consume(int32 toUSE) override;
 	TArray<FString> MaterialList;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Materials")

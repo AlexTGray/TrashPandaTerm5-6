@@ -32,8 +32,8 @@ protected:
 
 	//For displaying quantity of Health consumables on HUD
 	UFUNCTION(BlueprintCallable, Category = HUD)
-	int GetPlayerHealthConsumableQ() const;
+	int32 GetPlayerHealthConsumableQ() const;
 	//For displaying quantity of Fury consumables on HUD	
 	UFUNCTION(BlueprintCallable, Category = HUD)
-	int GetPlayerFuryConsumableQ() const;
+	int32 GetPlayerFuryConsumableQ() const;
 };

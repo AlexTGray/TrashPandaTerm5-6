@@ -42,10 +42,10 @@ protected:
 
 
 	UFUNCTION(Category = Item)
-	void Combine(int toADD);
+	void Combine(int32 toADD);
 	
 	UFUNCTION(Category = Item)
-	virtual bool Consume(int toUSE);
+	virtual bool Consume(int32 toUSE);
 
 	UFUNCTION()
 	void setIsOnGround();

@@ -25,7 +25,7 @@ FString AItem::GetName()
 {
 	return itemName;
 }
-int AItem::GetId() 
+int32 AItem::GetId() 
 {
 	return itemId;
 }

@@ -34,7 +34,7 @@ float UChipHUDWidget::GetPlayerFury() const
 	}
 }
 
-int UChipHUDWidget::GetPlayerHealthConsumableQ() const
+int32 UChipHUDWidget::GetPlayerHealthConsumableQ() const
 {
 	if (AChip* OwningCharacter = Cast<AChip>(GetOwningPlayerPawn()))
 	{
@@ -46,7 +46,7 @@ int UChipHUDWidget::GetPlayerHealthConsumableQ() const
 	}
 }
 
-int UChipHUDWidget::GetPlayerFuryConsumableQ() const
+int32 UChipHUDWidget::GetPlayerFuryConsumableQ() const
 {
 	if (AChip* OwningCharacter = Cast<AChip>(GetOwningPlayerPawn()))
 	{

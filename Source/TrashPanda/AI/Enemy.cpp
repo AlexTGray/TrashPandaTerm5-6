@@ -1,6 +1,7 @@
 #include "TrashPanda.h"
 #include "Enemy.h"
 
+
 // Sets default values
 AEnemy::AEnemy()
 {
@@ -45,13 +46,11 @@ void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+
 }
 
 
 void AEnemy::LootDrop()
 {
 
-	
 }
-
-

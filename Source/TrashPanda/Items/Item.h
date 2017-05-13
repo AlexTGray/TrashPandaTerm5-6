@@ -21,11 +21,11 @@ public:
 
 //getters
 	FString GetName();
-	int GetId();
+	int32 GetId();
 
 private:
 		FString itemName;
-		int itemId;
+		int32 itemId;
 protected:
 	UStaticMesh *mesh;	
 };

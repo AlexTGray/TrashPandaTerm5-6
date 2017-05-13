@@ -34,7 +34,7 @@ void AIMaterial::BeginPlay()
 
 
 
-bool AIMaterial::Consume(int toUSE)
+bool AIMaterial::Consume(int32 toUSE)
 {
 	if (toUSE >= quantity)
 	{

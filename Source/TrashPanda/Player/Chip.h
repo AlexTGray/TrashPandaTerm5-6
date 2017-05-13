@@ -32,10 +32,8 @@ public:
 	bool GetIsLightAttacking();
 	bool GetIsHeavyAttacking();
 
-
 	int32 PlayerExperience;
 	int32 PlayerLevel;
-
 
 	float CurrentHealth;
 	float MaxHealth;
@@ -48,8 +46,8 @@ public:
 	float GetFuryAsPercentage();
 	float GetFury();
 	float GetMaxFury();
-	int GetHConsumablesQuantity();
-	int GetFConsumablesQuantity();
+	int32 GetHConsumablesQuantity();
+	int32 GetFConsumablesQuantity();
 
 	void TakeDamage(float damage);
 
@@ -57,6 +55,8 @@ public:
 	void DebugHealth();
 	void DebugFury();
 
+	//Pause
+	void PauseGame();
 
 protected:
 	bool bisRabid;
@@ -66,9 +66,9 @@ protected:
 	int32 DamageReduction;
 	int32 Speed;
 	int32 DodgeDistance;
+
 	int32 CritChance;
 	int32 CritModifier;
-
 
 	//UENUM(BlueprintType, Category = "Levels")
 	enum ExperienceToLevel //28 levels for now, increase/decrease according to # of skills in skill trees/ max level
@@ -98,6 +98,14 @@ protected:
 
 	class UAnimInstance* AnimInstance;
 
+	//PauseMenu
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<class UPauseWidget> PauseWidgetClass;
+
+	class UPauseWidget* PauseGameWidget;
+
+
+
 
 	//class Inventory* PlayerInventory;
 	UPROPERTY(EditDefaultsOnly)
@@ -107,12 +115,8 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<class UChipHUDWidget>ChipHUDWidgetClass;
-	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<class UItemWidget> ItemWidgetClass;
 
-
-	UPROPERTY(EditDefaultsOnly)
-		class UChipHUDWidget* ChipHUDWidget;
+	class UChipHUDWidget* ChipHUDWidget;
 
 
 	TSubclassOf<class UCharacterWidgetSwitcher> WidgetSwitcherClass;
@@ -121,10 +125,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, Category = Player)
 		TArray<AActor*> itemsInRange;
-
-
-	TSubclassOf<class PauseGameWidget>PauseGameWidget;
-
 
 	void SetPlayerStats(int32 level);
 	void Interact();
@@ -138,7 +138,6 @@ protected:
 	void OpenInv();
 	void OpenCharPanel();
 
-
 	void GainExperience(int32 amount);
 	void LevelUp(int32 overflowExperience);
 
@@ -148,8 +147,6 @@ protected:
 
 	void ReadInv();
 
-
-	int32 CountInv();
 
 
 
@@ -185,8 +182,11 @@ public:
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
 
+
 protected:
-	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<class ABaseWeapon> StartingWeaponClass;
+	UPROPERTY()
+		TSubclassOf <class ABaseWeapon> StartingWeaponClass;
+
 	class ABaseWeapon* CurrentWeapon;
+
 };

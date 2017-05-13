@@ -48,12 +48,12 @@ int32 ABaseItem::GetId()
 	return itemId;
 }
 
-void ABaseItem::Combine(int toADD)
+void ABaseItem::Combine(int32 toADD)
 {
 	quantity += toADD;
 }
 
-bool ABaseItem::Consume(int toUSE)
+bool ABaseItem::Consume(int32 toUSE)
 {
 	if (toUSE >= quantity)
 	{

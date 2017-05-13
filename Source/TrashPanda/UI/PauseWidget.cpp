@@ -6,7 +6,6 @@
 
 
 
-
 void UPauseWidget::NativeConstruct()
 {
 		Super::NativeConstruct();
