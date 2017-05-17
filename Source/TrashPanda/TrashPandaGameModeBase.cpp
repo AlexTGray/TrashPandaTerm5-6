@@ -46,5 +46,6 @@ ATrashPandaGameModeBase::ATrashPandaGameModeBase(const FObjectInitializer& Objec
 void ATrashPandaGameModeBase::RestartGame()
 {
 	UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
+
 }
 

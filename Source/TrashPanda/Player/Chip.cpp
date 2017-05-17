@@ -357,7 +357,7 @@ void AChip::ReadInv()
 		UE_LOG(LogTemp, Warning, TEXT("Items in TMap %d"), num);
 	}
 }
-
+/*
 void AChip::TakeDamage(float damage)
 {
 	CurrentHealth -= damage;
@@ -366,7 +366,7 @@ void AChip::TakeDamage(float damage)
 	{
 		Death();
 	}
-}
+}*/
 
 float AChip::GetHealthAsPercentage()
 {

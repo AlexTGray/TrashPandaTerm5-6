@@ -49,7 +49,7 @@ public:
 	int32 GetHConsumablesQuantity();
 	int32 GetFConsumablesQuantity();
 
-	void TakeDamage(float damage);
+	//void TakeDamage(float damage);
 
 	//Functions to debug health and fury
 	void DebugHealth();

@@ -21,6 +21,8 @@ class TRASHPANDA_API AEnemyAIController : public AAIController
 		UPROPERTY(EditDefaultsOnly)
 			class UBehaviorTree* BehaviorTreeAsset;
 
+		
+
 		UPROPERTY(EditDefaultsOnly)
 			FGenericTeamId TeamId;
 
@@ -33,5 +35,6 @@ class TRASHPANDA_API AEnemyAIController : public AAIController
 		virtual ETeamAttitude::Type GetAttitudeTowardsPlayer(const AActor& Other) const;
 
 
+		void CalculateRandomPos();
 
 };
