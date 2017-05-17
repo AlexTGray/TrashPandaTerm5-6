@@ -1,7 +1,7 @@
 // All Rights Reserved for Students Graduating TFS Summer 2017
 
 #include "TrashPanda.h"
-#include "PauseWidget.h"
+#include "UI/PauseWidget.h"
 #include "Player/Chip.h"
 
 
@@ -10,9 +10,14 @@ void UPauseWidget::NativeConstruct()
 {
 		Super::NativeConstruct();
 
-		ResumeButton->OnClicked.AddDynamic(this, &ThisClass::OnResumeClicked);
+		
 
-		QuitButton->OnClicked.AddDynamic(this, &ThisClass::OnQuitClicked);
+	
+			ResumeButton->OnClicked.AddDynamic(this, &ThisClass::OnResumeClicked);
+		
+
+	
+			QuitButton->OnClicked.AddDynamic(this, &ThisClass::OnQuitClicked);
 		
 		//Part 2: Alternate way to get variables/functions from other classes
 		//PauseWidgetItem = Cast<AChip>(GetWorld()->GetFirstPlayerController()->GetPawn());

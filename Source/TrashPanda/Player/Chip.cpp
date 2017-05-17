@@ -85,7 +85,7 @@ void AChip::BeginPlay()
 	{
 		PauseGameWidget = CreateWidget<UPauseWidget>(GetWorld()->GetFirstPlayerController(), PauseWidgetClass);
 		PauseGameWidget->AddToPlayerScreen();
-		//PauseGameWidget->SetVisibility(ESlateVisibility::Hidden);
+		PauseGameWidget->SetVisibility(ESlateVisibility::Hidden);
 	}
 
 }
@@ -280,7 +280,7 @@ void AChip::LevelUp(int32 overflowExperience)
 
 void AChip::PauseGame()
 {
-	print("penis");
+	print("ok");
 
 	if (bGamePaused == false) //Is the game Paused? If not, pause it.
 	{
