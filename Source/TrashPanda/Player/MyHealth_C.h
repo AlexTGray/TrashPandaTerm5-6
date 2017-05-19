@@ -16,7 +16,7 @@ class TRASHPANDA_API AMyHealth_C : public AItem
 
 public:
 	void Use();
-	int AddHealth(int h);
+	int32 AddHealth(int32 h);
 private:
-	int health;
+	int32 health;
 };

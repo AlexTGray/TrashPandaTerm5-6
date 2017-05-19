@@ -11,3 +11,8 @@ Content/Levels/
 Saved/
 Intermediate/
 TrashPanda.sln
+*.suo
+*.suo
+*.umap
+Content/Levels/Level1_BuiltData.uasset
+*.suo

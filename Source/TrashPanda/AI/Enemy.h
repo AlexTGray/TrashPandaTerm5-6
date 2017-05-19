@@ -21,6 +21,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaSeconds) override;
 
+	UPROPERTY(EditAnywhere, Category = Behavior)
+	class UBehaviorTree* EnemyBehavior;
+
 protected:
 	UPROPERTY(VisibleAnywhere)
 	uint32 Health;

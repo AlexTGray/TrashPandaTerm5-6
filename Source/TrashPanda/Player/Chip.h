@@ -1,5 +1,3 @@
-// All Rights Reserved for Students Graduating TFS Summer 2017
-
 #pragma once
 
 #include "GameFramework/Character.h"
@@ -16,24 +14,26 @@ public:
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
+
 	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
+	virtual void Tick(float DeltaSeconds) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseTurnRate;
+		float BaseTurnRate;
 
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-	float BaseLookUpRate;
+		float BaseLookUpRate;
 
 	bool GetIsLightAttacking();
 	bool GetIsHeavyAttacking();
 
+	int32 PlayerExperience;
+	int32 PlayerLevel;
 
 	float CurrentHealth;
 	float MaxHealth;
@@ -46,13 +46,17 @@ public:
 	float GetFuryAsPercentage();
 	float GetFury();
 	float GetMaxFury();
-	int GetHConsumablesQuantity();
-	int GetFConsumablesQuantity();
+	int32 GetHConsumablesQuantity();
+	int32 GetFConsumablesQuantity();
+
+	//void TakeDamage(float damage);
 
 	//Functions to debug health and fury
 	void DebugHealth();
 	void DebugFury();
 
+	//Pause
+	void PauseGame();
 
 protected:
 	bool bisRabid;
@@ -66,37 +70,52 @@ protected:
 	int32 CritChance;
 	int32 CritModifier;
 
+	//UENUM(BlueprintType, Category = "Levels")
+	enum ExperienceToLevel //28 levels for now, increase/decrease according to # of skills in skill trees/ max level
+	{
+		LevelOne = 300, LevelTwo = 900, LevelThree = 1200, LevelFour = 1500, LevelFive = 1800, LevelSix = 2100, LevelSeven = 2400, LevelEight = 2700, LevelNine = 3000, LevelTen = 3300, LevelEleven = 3600, LevelTwelve = 3900,
+		LevelThirteen = 4200, LevelFourteen = 4500, LevelFifteen = 4800, LevelSixteen = 5100, LevelSeventeen = 5400, LevelEighteen = 5700, LevelNineteen = 6000, LevelTwenty = 6300, LevelTwentyOne = 6600,
+		LevelTwentyTwo = 6900, LevelTwentyThree = 7200, LevelTwentyFour = 7500, LevelTwentyFive = 7800, LevelTwentySix = 8100, LevelTwentySeven = 8400, LevelTwentyEight = 8700, LevelTwentyNine = 9000, LevelThirty = 9300
+	};
+
+	//Pause Toggle
+	bool bGamePaused = false;
 
 	//Pickup Collider
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Player)
-	class USphereComponent* PickupRadius;
-	
+		class USphereComponent* PickupRadius;
+
 	//Camera Boom
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Player)
-	class USpringArmComponent* CameraBoom;
+		class USpringArmComponent* CameraBoom;
 
 	//Follow Cam
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* FollowCamera;
+		class UCameraComponent* FollowCamera;
 
 	UPROPERTY(VisibleAnywhere, Category = Player)
-	class UInventoryComponent* Inventory;
+		class UInventoryComponent* Inventory;
 
-	class UAnimInstance* animInstance;
+	class UAnimInstance* AnimInstance;
+
+	//PauseMenu
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<class UPauseWidget> PauseWidgetClass;
+
+	class UPauseWidget* PauseGameWidget;
+
+
 
 
 	//class Inventory* PlayerInventory;
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class UInventoryWidget> InvWidgetClass;
+		TSubclassOf<class UInventoryWidget> InvWidgetClass;
 
 	class UInventoryWidget* InvWidget;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class UItemWidget> ItemWidgetClass;
+		TSubclassOf<class UChipHUDWidget>ChipHUDWidgetClass;
 
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class UChipHUDWidget>ChipHUDWidgetClass;
-	
 	class UChipHUDWidget* ChipHUDWidget;
 
 
@@ -105,9 +124,9 @@ protected:
 	class UCharacterWidgetSwitcher* SwitchWidget;
 
 	UPROPERTY(VisibleAnywhere, Category = Player)
-	TArray<AActor*> itemsInRange;
+		TArray<AActor*> itemsInRange;
 
-	void SetPlayerStats(int level);
+	void SetPlayerStats(int32 level);
 	void Interact();
 	void LightAttackPressed();
 	void LightAttackReleased();
@@ -115,22 +134,28 @@ protected:
 	void HeavyAttackReleased();
 	void Dodge();
 	void Rabid();
-	void AddFury(int fury);
+	void AddFury(int32 fury);
 	void OpenInv();
 	void OpenCharPanel();
+
+	void GainExperience(int32 amount);
+	void LevelUp(int32 overflowExperience);
+
 
 	void ReSpawn();
 	void Death();
 
 	void ReadInv();
 
-	int32 CountInv();
+
+
+
 
 	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+		void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UFUNCTION()
-	void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+		void OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 protected:
 	/** Called for forwards/backward input */
@@ -156,8 +181,12 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 
-	protected:
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class ABaseWeapon> StartingWeaponClass;
+
+
+protected:
+	UPROPERTY()
+		TSubclassOf <class ABaseWeapon> StartingWeaponClass;
+
 	class ABaseWeapon* CurrentWeapon;
+
 };

@@ -9,7 +9,7 @@
 // Sets default values
 ATest_AI_Character::ATest_AI_Character()
 {
-
+	//ALEX CODE
 	//initialize pawn sensor
 	PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
 	PawnSensingComp->SetPeripheralVisionAngle(90.f);
