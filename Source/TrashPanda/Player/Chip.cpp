@@ -265,6 +265,8 @@ void AChip::LevelUp(int32 overflowExperience)
 	//Increase PlayerLevel 
 	PlayerLevel += 1;
 
+	SkillPoints += 1;
+
 	//Make sure they didn't level up twice, somehow. If so, gain that experience again and calculate if they player needs to level up.
 	if (overflowExperience >= ExperienceToLevel(PlayerLevel))
 	{

@@ -35,6 +35,8 @@ public:
 	int32 PlayerExperience;
 	int32 PlayerLevel;
 
+	int32 SkillPoints;
+
 	float CurrentHealth;
 	float MaxHealth;
 	int32 CurrentFury;
