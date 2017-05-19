@@ -42,6 +42,16 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Weapon)
 	TEnumAsByte<WeaponType> WType;
 
+
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
+	TSubclassOf<class AActor> FirstIDRequirement;
+
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
+	TSubclassOf<class AActor> SecondIDRequirement;
+
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
+	TSubclassOf<class AActor> ThirdIDRequirement;
+
 protected:
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

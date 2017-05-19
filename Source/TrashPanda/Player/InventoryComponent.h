@@ -25,6 +25,8 @@ public:
 	const InventoryMap& GetItems() { return Items; }
 
 	int32 GetItemCount(TSubclassOf<class AActor> ItemType);
+
+	void CraftItem(TSubclassOf<class AActor> Item1, TSubclassOf<class AActor> Item2);
 	
 private:
 	InventoryMap Items;
