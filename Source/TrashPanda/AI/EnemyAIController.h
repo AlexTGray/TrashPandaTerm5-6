@@ -30,11 +30,13 @@ class TRASHPANDA_API AEnemyAIController : public AAIController
 		FGenericTeamId GetGenericTeamId() const override { return TeamId; }
 		ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;
 		static ETeamAttitude::Type GetAttitudeTowards(FGenericTeamId TeamA, FGenericTeamId TeamB);
+		
+
 
 	protected:
 		virtual ETeamAttitude::Type GetAttitudeTowardsPlayer(const AActor& Other) const;
 
 
 		void CalculateRandomPos();
-
+		bool Group();
 };

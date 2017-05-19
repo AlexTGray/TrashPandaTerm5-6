@@ -19,20 +19,19 @@ void AEnemyAIController::Possess(APawn* InPawn)
 	{
 		RunBehaviorTree(BehaviorTreeAsset);
 	}
-	CalculateRandomPos();
+
 
 }
-
-
 ETeamAttitude::Type AEnemyAIController::GetTeamAttitudeTowards(const AActor& Other) const
 {
 	if (const APawn* OtherCharacter = Cast<APawn>(&Other))
 	{
 		if (const IGenericTeamAgentInterface* TeamAgent = Cast<IGenericTeamAgentInterface>(OtherCharacter->GetController()))
 		{
+			
 			return Super::GetTeamAttitudeTowards(*OtherCharacter->GetController());
 		}
-
+		
 		return GetAttitudeTowardsPlayer(Other);
 	}
 
@@ -41,21 +40,36 @@ ETeamAttitude::Type AEnemyAIController::GetTeamAttitudeTowards(const AActor& Oth
 
 ETeamAttitude::Type AEnemyAIController::GetAttitudeTowards(FGenericTeamId TeamA, FGenericTeamId TeamB)
 {
+	print("uehuehue");
 	return TeamA == TeamB ? ETeamAttitude::Friendly : ETeamAttitude::Hostile;
 }
 
+
+
+
+
 ETeamAttitude::Type AEnemyAIController::GetAttitudeTowardsPlayer(const AActor& Other) const
 {
+	
 	return ETeamAttitude::Hostile;
 }
+
+
 
 void AEnemyAIController::CalculateRandomPos()
  {
 	FVector RandomPos;
-	RandomPos.X = 0;
+	RandomPos.X = -100;
 	RandomPos.Z = 0;
 	RandomPos.Y = 0;
+}
 
-	BrainComponent->GetBlackboardComponent()->SetValue<UBlackboardKeyType_Vector>(TEXT("RandomPos"), RandomPos);
+bool AEnemyAIController::Group()
+{
+	bool IsGroup = false;
 
- }
+
+	return IsGroup;
+}
+
+
