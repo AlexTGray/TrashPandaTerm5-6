@@ -115,8 +115,13 @@ protected:
 	class UInventoryWidget* InvWidget;
 
 	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<class UChipHUDWidget>ChipHUDWidgetClass;
+	TSubclassOf<class UChipHUDWidget>ChipHUDWidgetClass;
 
+	TSubclassOf<class UItemWidget> ItemWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UChipHUDWidget>ChipHUDWidgetClass;
+	
 	class UChipHUDWidget* ChipHUDWidget;
 
 
@@ -150,6 +155,7 @@ protected:
 
 	
 
+	int32 CountInv();
 
 
 	UFUNCTION()
@@ -190,4 +196,8 @@ protected:
 		
 	class ABaseWeapon* CurrentWeapon;
 
+	protected:
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class ABaseWeapon> StartingWeaponClass;
+	class ABaseWeapon* CurrentWeapon;
 };

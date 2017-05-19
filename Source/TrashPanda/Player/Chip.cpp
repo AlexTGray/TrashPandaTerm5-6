@@ -1,6 +1,8 @@
 #include "TrashPanda.h"
 #include "Items/BaseItem.h"
+#include "Items/BaseWeapon.h"
 #include "Player/InventoryComponent.h"
+#include "ItemWidget.h"
 #include "Items/IMaterial.h"
 #include "Player/InventoryWidget.h"
 #include "Items/IConsumable.h"
@@ -80,12 +82,17 @@ void AChip::BeginPlay()
 		SwitchWidget->AddToPlayerScreen();
 		SwitchWidget->SetVisibility(ESlateVisibility::Hidden);
 	}
-
 	if (PauseWidgetClass)
 	{
 		PauseGameWidget = CreateWidget<UPauseWidget>(GetWorld()->GetFirstPlayerController(), PauseWidgetClass);
 		PauseGameWidget->AddToPlayerScreen();
 		PauseGameWidget->SetVisibility(ESlateVisibility::Hidden);
+=======
+	if (StartingWeaponClass)
+	{
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.Instigator = this;
+		CurrentWeapon = GetWorld()->SpawnActor<ABaseWeapon>(StartingWeaponClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParameters);
 	}
 
 }
@@ -178,6 +185,12 @@ void AChip::Interact()
 void AChip::LightAttackPressed()
 {
 	bisLightAttacking = true;
+	//If(GetEquippedWeaponType == Slashing)
+	//{CalculatedDamage = (Damage + GetWeaponDamage()) * 1.5f;
+	//else
+	//{CalculatedDamage = (Damage + GetWeaponDamage())
+	//OnCollisionWithEnemy
+	//DealDamage(CalculatedDamage)
 }
 
 void AChip::LightAttackReleased()
@@ -192,6 +205,12 @@ void AChip::HeavyAttackPressed()
 
 	bisHeavyAttacking = true;
 	print("Heavy Attack");
+	//If(GetEquippedWeaponType == Bludgeoning)
+	//{CalculatedDamage = (Damage + GetWeaponDamage()) * 1.5f;
+	//else
+	//{CalculatedDamage = (Damage + GetWeaponDamage())
+	//OnCollisionWithEnemy
+	//DealDamage(CalculatedDamage)
 }
 
 void AChip::HeavyAttackReleased()
@@ -214,6 +233,18 @@ void AChip::AddFury(int32 fury)
 	CurrentFury += fury;
 }
 
+//void AChip::OpenInv()
+//{
+//	if (InvWidget->Visibility == ESlateVisibility::Hidden)
+//	{
+//		InvWidget->SetVisibility(ESlateVisibility::Visible);
+//	}
+//	else if (InvWidget->Visibility == ESlateVisibility::Visible)
+//	{
+//		InvWidget->SetVisibility(ESlateVisibility::Hidden);
+//	}
+//
+//}
 void AChip::OpenInv()
 {
 	if (InvWidget->Visibility == ESlateVisibility::Hidden)
@@ -226,8 +257,36 @@ void AChip::OpenInv()
 		InvWidget->SetVisibility(ESlateVisibility::Hidden);
 		PauseGame();
 	}
-
+	
+		int16 columns = 0;
+		int16 rows = 0;
+		for (int32 i = 0; i < CountInv(); i++)
+		{
+			UItemWidget* ItemWidget = CreateWidget<UItemWidget>(GetWorld()->GetFirstPlayerController(), ItemWidgetClass);
+			UUniformGridSlot* test = InvWidget->GetGridPanel()->AddChildToUniformGrid(ItemWidget);
+			if (test)
+				{
+				test->UUniformGridSlot::SetColumn(columns);
+				test->UUniformGridSlot::SetRow(rows);
+				}
+			else
+				{
+				UE_LOG(LogTemp, Error, TEXT("UniformGridSlot Pointer NULL"));
+				return;
+				}
+						//ItemWidget->SetItemImage();
+				ItemWidget->SetQuantity(10);
+			columns++;
+			if (columns >= 3)
+			{
+				columns = 0;
+				rows++;
+			}
+		}
 }
+
+
+
 void AChip::OpenCharPanel()
 {
 	if (SwitchWidget)
@@ -341,6 +400,11 @@ void AChip::Death()
 	//Need to instantiate a menu that asks whether the player wants to retry (ReSpawn();) or return to the main menu? (Maybe just respawn and quit.)
 
 	//ReSpawn(); //?
+}
+int32 AChip::CountInv()
+{
+	int32 num = Inventory->GetItems().Num();
+	return num;
 }
 
 void AChip::ReadInv()
