@@ -114,8 +114,6 @@ protected:
 
 	class UInventoryWidget* InvWidget;
 
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class UChipHUDWidget>ChipHUDWidgetClass;
 
 	TSubclassOf<class UItemWidget> ItemWidgetClass;
 
@@ -192,12 +190,8 @@ public:
 
 protected:
 	UPROPERTY()
-		TSubclassOf <class ABaseWeapon> StartingWeaponClass;
+	TSubclassOf <class ABaseWeapon> StartingWeaponClass;
 		
 	class ABaseWeapon* CurrentWeapon;
 
-	protected:
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class ABaseWeapon> StartingWeaponClass;
-	class ABaseWeapon* CurrentWeapon;
 };

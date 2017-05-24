@@ -17,7 +17,7 @@ public:
 	virtual void NativeConstruct() override;
 
 	UUniformGridPanel* GetGridPanel();
-	
+
 
 protected:
 

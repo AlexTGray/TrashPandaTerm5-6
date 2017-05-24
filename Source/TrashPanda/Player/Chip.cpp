@@ -82,12 +82,14 @@ void AChip::BeginPlay()
 		SwitchWidget->AddToPlayerScreen();
 		SwitchWidget->SetVisibility(ESlateVisibility::Hidden);
 	}
+
 	if (PauseWidgetClass)
 	{
 		PauseGameWidget = CreateWidget<UPauseWidget>(GetWorld()->GetFirstPlayerController(), PauseWidgetClass);
 		PauseGameWidget->AddToPlayerScreen();
 		PauseGameWidget->SetVisibility(ESlateVisibility::Hidden);
-=======
+	}
+
 	if (StartingWeaponClass)
 	{
 		FActorSpawnParameters SpawnParameters;
