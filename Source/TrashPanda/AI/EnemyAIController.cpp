@@ -40,7 +40,7 @@ ETeamAttitude::Type AEnemyAIController::GetTeamAttitudeTowards(const AActor& Oth
 
 ETeamAttitude::Type AEnemyAIController::GetAttitudeTowards(FGenericTeamId TeamA, FGenericTeamId TeamB)
 {
-	print("uehuehue");
+
 	return TeamA == TeamB ? ETeamAttitude::Friendly : ETeamAttitude::Hostile;
 }
 
