@@ -11,6 +11,8 @@
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISense_Sight.h"
 #include "AI/Enemy.h"
+#include "AI/EnemyAI.h"
+#include "AI/AI_TargetLocation.h"
 
 void UBTService_SelectTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
@@ -21,6 +23,40 @@ void UBTService_SelectTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 
 	AActor* FoundTarget = FindTarget(Perception, OwningCharacter);
 	OwnerComp.GetBlackboardComponent()->SetValue<UBlackboardKeyType_Object>(TEXT("Target"), FoundTarget);
+}
+
+EBTNodeResult::Type UBTService_SelectTarget::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
+{
+	AEnemyAI* AICon = Cast<AEnemyAI>(OwnerComp.GetAIOwner());
+
+	if (AICon)
+	{
+		//Get BB component
+		UBlackboardComponent * BlackboardComp = AICon->GetBlackboardComp();
+
+		AAI_TargetLocation * CurrentPoint = Cast<AAI_TargetLocation>(BlackboardComp->GetValueAsObject("PatrolPoint"));
+
+		TArray<AActor*> AvailablePatrolPoints = AICon->GetPatrolPoints();
+
+		AAI_TargetLocation* NextPatrolPoint = nullptr;
+
+
+		if (AICon->CurrentPatrolPoint != AvailablePatrolPoints.Num() - 1)
+		{
+			NextPatrolPoint = Cast<AAI_TargetLocation>(AvailablePatrolPoints[++AICon->CurrentPatrolPoint]);
+		}
+		else
+		{
+			NextPatrolPoint = Cast<AAI_TargetLocation>(AvailablePatrolPoints[0]);
+			AICon->CurrentPatrolPoint = 0;
+		}
+
+		BlackboardComp->SetValueAsObject("PatrolPoint", NextPatrolPoint);
+
+		return EBTNodeResult::Succeeded;
+	}
+
+	return EBTNodeResult::Failed;
 }
 
 AActor* UBTService_SelectTarget::FindTarget(class UAIPerceptionComponent* PerceptionComponent, class AChip* OwningCharacter)

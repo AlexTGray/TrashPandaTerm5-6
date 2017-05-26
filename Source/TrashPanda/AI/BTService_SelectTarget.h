@@ -3,6 +3,7 @@
 #pragma once
 
 #include "BehaviorTree/Services/BTService_BlackboardBase.h"
+#include "BehaviorTree/BTTaskNode.h"
 #include "BTService_SelectTarget.generated.h"
 
 /**
@@ -18,6 +19,6 @@ public:
 
 protected:
 	virtual AActor* FindTarget(class UAIPerceptionComponent* PerceptionComponent, class AChip* OwningCharacter);
-	
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 	
 };

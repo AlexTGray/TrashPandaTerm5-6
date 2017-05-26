@@ -13,6 +13,9 @@ class TRASHPANDA_API AEnemyAI : public AAIController
 {
 	GENERATED_BODY()
 		
+	UBlackboardComponent* BlackboardComp;
+
+	TArray<AActor*> PatrolPoints;
 		
 public:
 	virtual void Possess(APawn* InPawn) override;
@@ -30,5 +33,10 @@ public:
 	FGenericTeamId GetGenericTeamId() const override { return TeamId; }
 	ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;
 	static ETeamAttitude::Type GetAttitudeTowards(FGenericTeamId TeamA, FGenericTeamId TeamB);
+
+	int32 CurrentPatrolPoint = 0;
+
+	FORCEINLINE UBlackboardComponent* GetBlackboardComp() const { return BlackboardComp; }
+	FORCEINLINE TArray<AActor*> GetPatrolPoints() const { return PatrolPoints; }
 
 };
