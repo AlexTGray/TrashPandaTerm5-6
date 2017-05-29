@@ -3,37 +3,39 @@
 #include "TrashPanda.h"
 #include "BTSelectPatrolPoint.h"
 #include "AI_TargetLocation.h"
-#include "Test_AI_Controller.h"
+#include "AI/EnemyAI.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
 //add
 EBTNodeResult::Type UBTSelectPatrolPoint::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
 {
-	ATest_AI_Controller* AICon = Cast<ATest_AI_Controller>(OwnerComp.GetAIOwner());
+	AEnemyAI* AICon = Cast<AEnemyAI>(OwnerComp.GetAIOwner());
 
 	if (AICon)
 	{
 		//Get BB component
 		UBlackboardComponent * BlackboardComp = AICon->GetBlackboardComp();
 
-		AAI_TargetLocation * CurrentPoint = Cast<AAI_TargetLocation>(BlackboardComp->GetValueAsObject("LocationToGo"));
-
+		AAI_TargetLocation * CurrentPoint = Cast<AAI_TargetLocation>(BlackboardComp->GetValueAsObject("PatrolPoint"));
+		
 		TArray<AActor*> AvailablePatrolPoints = AICon->GetPatrolPoints();
 
+		int32 RandomIndex;
+
 		AAI_TargetLocation* NextPatrolPoint = nullptr;
-
-
-		if (AICon->CurrentPatrolPoint != AvailablePatrolPoints.Num() - 1)
+		
+		do
 		{
-			NextPatrolPoint = Cast<AAI_TargetLocation>(AvailablePatrolPoints[++AICon->CurrentPatrolPoint]);
-		}
-		else
-		{
-			NextPatrolPoint = Cast<AAI_TargetLocation>(AvailablePatrolPoints[0]);
-			AICon->CurrentPatrolPoint = 0;
-		}
+			RandomIndex = FMath::RandRange(0, AvailablePatrolPoints.Num()-1);
+			int32 i = AvailablePatrolPoints.Num();
+		
+			UE_LOG(LogTemp, Warning, TEXT("Available Patrol Points: %d"), i);
+			
+			NextPatrolPoint = Cast<AAI_TargetLocation>(AvailablePatrolPoints[RandomIndex]);
 
-		BlackboardComp->SetValueAsObject("LocationToGo", NextPatrolPoint);
+		} while (CurrentPoint == NextPatrolPoint);
+
+		BlackboardComp->SetValueAsObject("PatrolPoint", NextPatrolPoint);
 
 		return EBTNodeResult::Succeeded;
 	}

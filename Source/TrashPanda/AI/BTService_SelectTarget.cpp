@@ -23,6 +23,9 @@ void UBTService_SelectTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 
 	AActor* FoundTarget = FindTarget(Perception, OwningCharacter);
 	OwnerComp.GetBlackboardComponent()->SetValue<UBlackboardKeyType_Object>(TEXT("Target"), FoundTarget);
+
+	ExecuteTask(OwnerComp, NodeMemory);
+
 }
 
 EBTNodeResult::Type UBTService_SelectTarget::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
@@ -38,18 +41,19 @@ EBTNodeResult::Type UBTService_SelectTarget::ExecuteTask(UBehaviorTreeComponent 
 
 		TArray<AActor*> AvailablePatrolPoints = AICon->GetPatrolPoints();
 
+		int32 RandomIndex;
+
 		AAI_TargetLocation* NextPatrolPoint = nullptr;
 
+		do 
+		{
+			RandomIndex = FMath::RandRange(0, AvailablePatrolPoints.Num() - 1);
+						
+			UE_LOG(LogTemp, Warning, TEXT("Available Patrol Points: %d"), AvailablePatrolPoints.Num());
 
-		if (AICon->CurrentPatrolPoint != AvailablePatrolPoints.Num() - 1)
-		{
-			NextPatrolPoint = Cast<AAI_TargetLocation>(AvailablePatrolPoints[++AICon->CurrentPatrolPoint]);
-		}
-		else
-		{
-			NextPatrolPoint = Cast<AAI_TargetLocation>(AvailablePatrolPoints[0]);
-			AICon->CurrentPatrolPoint = 0;
-		}
+			NextPatrolPoint = Cast<AAI_TargetLocation>(AvailablePatrolPoints[RandomIndex]);
+
+		} while (CurrentPoint == NextPatrolPoint);
 
 		BlackboardComp->SetValueAsObject("PatrolPoint", NextPatrolPoint);
 
@@ -71,6 +75,8 @@ AActor* UBTService_SelectTarget::FindTarget(class UAIPerceptionComponent* Percep
 
 	return NULL;
 }
+
+
 
 
 

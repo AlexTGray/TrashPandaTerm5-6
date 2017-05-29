@@ -19,6 +19,7 @@ public:
 
 protected:
 	virtual AActor* FindTarget(class UAIPerceptionComponent* PerceptionComponent, class AChip* OwningCharacter);
-	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+	
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory);
 	
 };
