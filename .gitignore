@@ -1,3 +1,4 @@
+
 */Binaries
 */Build
 */Intermediate
@@ -7,8 +8,10 @@
 */.sln
 
 Binaries/
+Content/Levels/
 Saved/
 Intermediate/
-Content/Levels/Level1.umap
-Content/Levels/Level1.umap
 TrashPanda.sln
+*.suo
+*.suo
+*.suo
