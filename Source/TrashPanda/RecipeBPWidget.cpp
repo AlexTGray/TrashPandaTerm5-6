@@ -4,10 +4,13 @@
 #include "RecipeBPWidget.h"
 #include "Items/BaseItem.h"
 #include "Items/BaseWeapon.h"
+#include "Player/Chip.h"
 
 void URecipeBPWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+
+	SelectItem->OnClicked.AddDynamic(this, &ThisClass::OnItemSelected);
 }
 
 /*
@@ -28,23 +31,45 @@ TO DO - Nick:
 3) Remember how i did it in unity and compare/change
 4) Once I'm returning the proper variables, populate the crafting menu.
 
+DONE
 */
 
-void URecipeBPWidget::OnItemSelected() const
+void URecipeBPWidget::OnItemSelected()
 {
-	UE_LOG(LogTemp, Display, TEXT("Item Clicked & Selected"));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Attempting To Craft..."));
+	/*
+	Current Issue:
+	- Cant access the player's inventory properly to check for the requirements.
+	- Once I get the check done, I can easily use the same method to add/remove items.
+	- Then, crafting is done
+	*/
+
+	//if (AChip* player = Cast<AChip>(GetWorld()->GetFirstPlayerController()))
+	//{
+	//	if (player->Inventory->HasItemOfType(this->Item->GetDefaultObject<ABaseWeapon>()->FirstIDRequirement))
+	//	{
+	//		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Player Has Req1"));
+	//	}
+	//}
+	//else
+	//{
+	//	UE_LOG(LogTemp, Display, TEXT("Failed to cast player"));
+	//}
+
+	//UE_LOG(LogTemp, Display, TEXT("Item Clicked & Selected"));
 }
 
 FText URecipeBPWidget::SetItemName() const
 {
-	FText name;
-	name = FText::FromString(Item->GetName());
+	//this->Item->GetDefaultObject<ABaseWeapon>()->itemName;
+
+	FText name = FText::FromString(this->Item->GetDefaultObject<ABaseWeapon>()->itemName);
 	return name;
 }
 
 FSlateBrush URecipeBPWidget::SetItemImage() const
 {
-	return FSlateBrush();
+	return this->Item->GetDefaultObject<ABaseWeapon>()->img;
 }
 
 UUniformGridPanel* URecipeBPWidget::GetGridPanel() const
@@ -54,16 +79,19 @@ UUniformGridPanel* URecipeBPWidget::GetGridPanel() const
 
 FText URecipeBPWidget::GetReq1() const
 {
-		return FText();
+	FText firstReq = FText::FromString(this->Item->GetDefaultObject<ABaseWeapon>()->FirstTextRequirement);
+	return firstReq;
 }
 
 FText URecipeBPWidget::GetReq2() const
 {
-		return FText();
+	FText secondReq = FText::FromString(this->Item->GetDefaultObject<ABaseWeapon>()->SecondTextRequirement);
+	return secondReq;
 }
 
 FText URecipeBPWidget::GetReq3() const
 {
-		return FText();
+	FText thirdReq = FText::FromString(this->Item->GetDefaultObject<ABaseWeapon>()->ThirdTextRequirement);
+	return thirdReq;
 }
 

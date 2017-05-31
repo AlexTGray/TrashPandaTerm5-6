@@ -26,6 +26,30 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
+		FSlateBrush img;
+
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
+		FString itemName;
+
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
+		FString FirstTextRequirement;
+
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
+		FString SecondTextRequirement;
+
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
+		FString ThirdTextRequirement;
+
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
+		TSubclassOf<class AActor> FirstIDRequirement;
+
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
+		TSubclassOf<class AActor> SecondIDRequirement;
+
+	UPROPERTY(EditDefaultsOnly, Category = Weapon)
+		TSubclassOf<class AActor> ThirdIDRequirement;
+
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = Weapon)
 	class UCapsuleComponent* collider;
@@ -45,15 +69,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Weapon)
 	TEnumAsByte<WeaponType> WType;
 
-
-	UPROPERTY(EditDefaultsOnly, Category = Weapon)
-	TSubclassOf<class AActor> FirstIDRequirement;
-
-	UPROPERTY(EditDefaultsOnly, Category = Weapon)
-	TSubclassOf<class AActor> SecondIDRequirement;
-
-	UPROPERTY(EditDefaultsOnly, Category = Weapon)
-	TSubclassOf<class AActor> ThirdIDRequirement;
 
 protected:
 	UFUNCTION()

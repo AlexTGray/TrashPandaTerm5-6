@@ -24,7 +24,6 @@ public:
 	FString GetName();
 	int32 GetId();
 
-protected:
 	UPROPERTY(VisibleAnywhere)
 	FString itemName;
 	int32 itemId;
@@ -32,7 +31,10 @@ protected:
 	bool isOnGround;
 	
 
-	FSlateBrush* invImage;
+	FSlateBrush invImage;
+
+
+protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* mesh;

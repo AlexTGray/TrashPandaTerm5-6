@@ -17,19 +17,10 @@ class TRASHPANDA_API URecipeBPWidget : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 
-	/*
-	Widget Layout & Components:
-	-Selection Button
-	-ItemName
-	-ItemImage
-	-RequirementGridPanel
-	-1stReq
-	-2ndReq
-	-3rdReq
-	*/
 
-	UFUNCTION(BlueprintCallable, Category = Crafting)
-		void OnItemSelected() const;
+	UFUNCTION()
+		void OnItemSelected();
+
 
 	UFUNCTION(BlueprintCallable, Category = Crafting)
 	FText SetItemName() const;

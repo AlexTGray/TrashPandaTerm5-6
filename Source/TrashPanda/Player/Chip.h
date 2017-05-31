@@ -60,6 +60,9 @@ public:
 	//Pause
 	void PauseGame();
 
+	UPROPERTY(VisibleAnywhere, Category = Player)
+		class UInventoryComponent* Inventory;
+
 protected:
 	bool bisRabid;
 	bool bisLightAttacking;
@@ -95,8 +98,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* FollowCamera;
 
-	UPROPERTY(VisibleAnywhere, Category = Player)
-		class UInventoryComponent* Inventory;
+
 
 	class UAnimInstance* AnimInstance;
 
