@@ -47,8 +47,3 @@ int32 UInventoryComponent::GetItemCount(TSubclassOf<class AActor> ItemType)
 	return 0;
 }
 
-void UInventoryComponent::CraftItem(TSubclassOf<class AActor> Item1, TSubclassOf<class AActor> Item2)
-{
-
-}
-

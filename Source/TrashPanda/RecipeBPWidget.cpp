@@ -5,6 +5,7 @@
 #include "Items/BaseItem.h"
 #include "Items/BaseWeapon.h"
 #include "Player/Chip.h"
+#include "Player/InventoryComponent.h"
 
 void URecipeBPWidget::NativeConstruct()
 {
@@ -24,16 +25,6 @@ Widget components:
 -3rdReq
 */
 
-/*
-TO DO - Nick:
-1) return the proper name, image, requirements, etc of each item.
-2) Look into DefaultObjects for this maybe
-3) Remember how i did it in unity and compare/change
-4) Once I'm returning the proper variables, populate the crafting menu.
-
-DONE
-*/
-
 void URecipeBPWidget::OnItemSelected()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Attempting To Craft..."));
@@ -44,17 +35,64 @@ void URecipeBPWidget::OnItemSelected()
 	- Then, crafting is done
 	*/
 
-	//if (AChip* player = Cast<AChip>(GetWorld()->GetFirstPlayerController()))
-	//{
-	//	if (player->Inventory->HasItemOfType(this->Item->GetDefaultObject<ABaseWeapon>()->FirstIDRequirement))
-	//	{
-	//		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Player Has Req1"));
-	//	}
-	//}
-	//else
-	//{
-	//	UE_LOG(LogTemp, Display, TEXT("Failed to cast player"));
-	//}
+	if (AChip* player = Cast<AChip>(GetWorld()->GetFirstPlayerController()->GetPawn()))
+	{ 
+		if (player->Inventory->HasItemOfType(this->Item->GetDefaultObject<ABaseWeapon>()->FirstIDRequirement))
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Player Has Req1"));
+
+			if (player->Inventory->HasItemOfType(this->Item->GetDefaultObject<ABaseWeapon>()->SecondIDRequirement))
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Player Has Req2"));
+
+				//Check for 3rd requirement
+				if (this->Item->GetDefaultObject<ABaseWeapon>()->ThirdIDRequirement != NULL)
+				{
+					if (player->Inventory->HasItemOfType(this->Item->GetDefaultObject<ABaseWeapon>()->ThirdIDRequirement))
+					{
+						GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Player Has Req3"));
+
+						//Craft and remove 3 items
+						player->Inventory->AddItem(this->Item);
+						player->Inventory->RemoveItem(this->Item->GetDefaultObject<ABaseWeapon>()->FirstIDRequirement);
+						player->Inventory->RemoveItem(this->Item->GetDefaultObject<ABaseWeapon>()->SecondIDRequirement);
+						player->Inventory->RemoveItem(this->Item->GetDefaultObject<ABaseWeapon>()->ThirdIDRequirement);
+						UE_LOG(LogTemp, Display, TEXT("Added Item"));
+					}
+					else
+					{
+						GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Player Doesnt have Req3"));
+					}
+				}
+				else
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Item doesn't have a 3rd Req"));
+
+					//Craft and remove 2 items
+
+
+					player->Inventory->AddItem(this->Item);
+					player->Inventory->RemoveItem(this->Item->GetDefaultObject<ABaseWeapon>()->FirstIDRequirement);
+					player->Inventory->RemoveItem(this->Item->GetDefaultObject<ABaseWeapon>()->SecondIDRequirement);
+					UE_LOG(LogTemp, Display, TEXT("Added Item"));
+
+				}
+
+			}
+			else
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Player Doesnt have Req2"));
+			}
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Player Doesnt have Req1"));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT("Failed to cast player"));
+	}
 
 	//UE_LOG(LogTemp, Display, TEXT("Item Clicked & Selected"));
 }
