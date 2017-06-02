@@ -58,16 +58,17 @@ ETeamAttitude::Type AEnemyAIController::GetAttitudeTowardsPlayer(const AActor& O
 
 void AEnemyAIController::CalculateRandomPos()
  {
-	//FVector RandomPos;
-	//RandomPos.X = -100;
-	//RandomPos.Z = 0;
-	//RandomPos.Y = 0;
+	FVector RandomPos;
+	RandomPos.X = 100;
+	RandomPos.Z = 150;
+	RandomPos.Y = 0;
 }
 
 
 
 void AEnemyAIController::AttackBasic()
 {
-	
+
+	//if in range attack
 }
 
