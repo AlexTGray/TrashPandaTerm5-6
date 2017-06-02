@@ -38,5 +38,5 @@ class TRASHPANDA_API AEnemyAIController : public AAIController
 
 
 		void CalculateRandomPos();
-		bool Group();
+		void AttackBasic();
 };
