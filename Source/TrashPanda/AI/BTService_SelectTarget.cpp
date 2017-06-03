@@ -42,6 +42,7 @@ void UBTService_SelectTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 <<<<<<< HEAD
 
 	OwnerComp.GetBlackboardComponent()->SetValue<UBlackboardKeyType_Object>(TEXT("Target"), FoundTarget);
+<<<<<<< HEAD
 =======
 	OwnerComp.GetBlackboardComponent()->SetValue<UBlackboardKeyType_Object>(TEXT("Target"), FoundTarget);
 
@@ -83,6 +84,13 @@ EBTNodeResult::Type UBTService_SelectTarget::ExecuteTask(UBehaviorTreeComponent 
 
 	return EBTNodeResult::Failed;
 >>>>>>> refs/remotes/origin/Raph_Branch
+=======
+	if (FoundTarget != NULL)
+	{
+		OwnerComp.GetBlackboardComponent()->SetValue<UBlackboardKeyType_Bool>(TEXT("InCombat"), true);
+	
+	}
+>>>>>>> origin/Gabe_Branch
 }
 
 AActor* UBTService_SelectTarget::FindTarget(class UAIPerceptionComponent* PerceptionComponent, class AChip* OwningCharacter)
@@ -92,6 +100,7 @@ AActor* UBTService_SelectTarget::FindTarget(class UAIPerceptionComponent* Percep
 <<<<<<< HEAD
 	if (Hostiles.Num() > 0)
 	{
+
 		return Hostiles[0];	
 	}
 	return NULL;
