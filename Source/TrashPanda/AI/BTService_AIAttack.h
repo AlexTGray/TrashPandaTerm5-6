@@ -3,6 +3,7 @@
 #pragma once
 
 #include "BehaviorTree/BTService.h"
+#include "AI/Enemy.h"
 #include "BTService_AIAttack.generated.h"
 
 /**
@@ -15,10 +16,9 @@ class TRASHPANDA_API UBTService_AIAttack : public UBTService
 	
 public :
 	void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
-
 protected:
-	
-	virtual void AttackMelle();
+
+
 
 
 };

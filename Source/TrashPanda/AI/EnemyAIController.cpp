@@ -14,7 +14,7 @@
 void AEnemyAIController::Possess(APawn* InPawn)
 {
 	Super::Possess(InPawn);
-	
+
 	if (BehaviorTreeAsset)
 	{
 		RunBehaviorTree(BehaviorTreeAsset);
@@ -28,10 +28,10 @@ ETeamAttitude::Type AEnemyAIController::GetTeamAttitudeTowards(const AActor& Oth
 	{
 		if (const IGenericTeamAgentInterface* TeamAgent = Cast<IGenericTeamAgentInterface>(OtherCharacter->GetController()))
 		{
-			
+
 			return Super::GetTeamAttitudeTowards(*OtherCharacter->GetController());
 		}
-		
+
 		return GetAttitudeTowardsPlayer(Other);
 	}
 
@@ -57,7 +57,7 @@ ETeamAttitude::Type AEnemyAIController::GetAttitudeTowardsPlayer(const AActor& O
 
 
 void AEnemyAIController::CalculateRandomPos()
- {
+{
 	FVector RandomPos;
 	RandomPos.X = 100;
 	RandomPos.Z = 150;
@@ -66,8 +66,9 @@ void AEnemyAIController::CalculateRandomPos()
 
 
 
-void AEnemyAIController::AttackBasic()
+ void AEnemyAIController::AttackBasic()
 {
+	GetBrainComponent()->GetBlackboardComponent()->SetValue<UBlackboardKeyType_Bool>(TEXT("IsInAttackRange"), true);
 
 	//if in range attack
 }
