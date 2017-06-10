@@ -68,8 +68,8 @@ void AEnemyAIController::CalculateRandomPos()
 
  void AEnemyAIController::AttackBasic()
 {
-	GetBrainComponent()->GetBlackboardComponent()->SetValue<UBlackboardKeyType_Bool>(TEXT("IsInAttackRange"), true);
-
+	//GetBrainComponent()->GetBlackboardComponent()->SetValue<UBlackboardKeyType_Bool>(TEXT("IsInAttackRange"), true);
+	 print("im in AIContrller");
 	//if in range attack
 }
 

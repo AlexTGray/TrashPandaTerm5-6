@@ -15,19 +15,18 @@ void UBTService_AIAttack::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Nod
 
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
 
-	//AEnemyAIController*  controller = Cast<AEnemyAIController>(OwnerComp.GetPawn()->GetController());
+	AEnemyAIController*  controller = Cast<AEnemyAIController>(OwnerComp.GetAIOwner());
 	
 //	AChip* OwningCharacter = Cast<AChip>(OwnerComp.GetAIOwner()->GetPawn());
 
 
 	if (controller != NULL)
-		print("I attacked bitch");
+		controller->AttackBasic();
 	if (controller == NULL)
 		print("NUll");
 
 
 
-	//		controller->AttackBasic();
 
 		// set the calculation to distance here
 
