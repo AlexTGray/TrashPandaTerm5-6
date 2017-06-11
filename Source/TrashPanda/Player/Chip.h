@@ -63,6 +63,8 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Player)
 		class UInventoryComponent* Inventory;
 
+	bool Tutorial = true;
+
 protected:
 	bool bisRabid;
 	bool bisLightAttacking;
@@ -108,7 +110,10 @@ protected:
 
 	class UPauseWidget* PauseGameWidget;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UPopUpWindowWidgetClass> PopUpWidgetClass;
 
+	class UPopUpWindowWidgetClass* PopUpWidget;
 
 	//class Inventory* PlayerInventory;
 	UPROPERTY(EditDefaultsOnly)

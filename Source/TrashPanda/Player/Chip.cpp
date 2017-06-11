@@ -11,6 +11,7 @@
 #include "Player/Chip.h"
 #include "ChipHUDWidget.h"
 #include "UI/PauseWidget.h"
+#include "PopUpWindowWidgetClass.h"
 #include "TrashPandaGameModeBase.h"
 
 #define print(text) if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::Red,text) 
@@ -89,12 +90,27 @@ void AChip::BeginPlay()
 		PauseGameWidget->AddToPlayerScreen();
 		PauseGameWidget->SetVisibility(ESlateVisibility::Hidden);
 	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("PauseWidgetClass not found!!!!!!!"));
+	}
 
 	if (StartingWeaponClass)
 	{
 		FActorSpawnParameters SpawnParameters;
 		SpawnParameters.Instigator = this;
 		CurrentWeapon = GetWorld()->SpawnActor<ABaseWeapon>(StartingWeaponClass, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParameters);
+	}
+
+	if (PopUpWidgetClass)
+	{
+		PopUpWidget = CreateWidget<UPopUpWindowWidgetClass>(GetWorld()->GetFirstPlayerController(), PopUpWidgetClass);
+		PopUpWidget->AddToPlayerScreen();
+		PopUpWidget->SetVisibility(ESlateVisibility::Hidden);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("PopUpWidgetClass not found!!!!!!!"));
 	}
 
 }
@@ -253,6 +269,16 @@ void AChip::OpenInv()
 	{
 		InvWidget->SetVisibility(ESlateVisibility::Visible);
 		PauseGame();
+		if (Tutorial == true)
+		{
+			//Have the tutorial for the inventory/crafting appear
+			FString tutorialText = "This is your inventory! On the right is where items are stored. On the left are items you can craft. \n \n Item recipes require you to have the listed materials in order to craft it. To craft, click the button/name of the item.";
+			PopUpWidget->SetPopUpText(FText::FromString(tutorialText));
+			PopUpWidget->SetVisibility(ESlateVisibility::Visible);
+			//PopUpWidget->SetPositionInViewport(FVector2D position, bool bRemoveDPIScale = true / false); //To set the position
+			
+			Tutorial = false;
+		}
 	}
 	else if (InvWidget->Visibility == ESlateVisibility::Visible)
 	{
